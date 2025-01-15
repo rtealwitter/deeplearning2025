@@ -89,5 +89,40 @@
     "title": "Linear Regression and Mean Squared Error",
     "section": "Conclusion",
     "text": "Conclusion\nWe’ve learned about the basic building blocks of machine learning and used them to understand linear regression. We’ve seen how to define the model, loss, and optimizer. We’ve also seen how to solve the linear regression problem in both the univariate and multivariate settings.\nThere are two big questions that our discussion of linear regression raises:\n\nWhat if the data does not have a linear relationship?\nWhat happens when our model is too complex to solve for the exact solution?\n\nWe will answer these questions in future lectures as we explore logistic regression, neural networks, and gradient descent."
+  },
+  {
+    "objectID": "notes/06_TransformersPositionalEncoding.html",
+    "href": "notes/06_TransformersPositionalEncoding.html",
+    "title": "Transformers and Positional Encoding",
+    "section": "",
+    "text": "Given example sentence: the cow jumped over the moon. Covert the sentence into an nxd tensor (n is the number of words, d is the vector length) where each words is one-hot encoded into a\n\n\nAnother example sentence: the cat plays the fiddle\n\n\nConvert the sentence into an mxd tensor (m is the number of words, d is vector length) Now, we want the following: takes sequences of varying lengths, accounts for short range and long range dependencies, and considers context of words (i.e. fiddle with door vs. fiddle the instrument)\nAttention is the solution… We will consider two versions of attention: Self-Attention and Cross-Attention"
+  },
+  {
+    "objectID": "notes/06_TransformersPositionalEncoding.html#modivation",
+    "href": "notes/06_TransformersPositionalEncoding.html#modivation",
+    "title": "Transformers and Positional Encoding",
+    "section": "",
+    "text": "Given example sentence: the cow jumped over the moon. Covert the sentence into an nxd tensor (n is the number of words, d is the vector length) where each words is one-hot encoded into a\n\n\nAnother example sentence: the cat plays the fiddle\n\n\nConvert the sentence into an mxd tensor (m is the number of words, d is vector length) Now, we want the following: takes sequences of varying lengths, accounts for short range and long range dependencies, and considers context of words (i.e. fiddle with door vs. fiddle the instrument)\nAttention is the solution… We will consider two versions of attention: Self-Attention and Cross-Attention"
+  },
+  {
+    "objectID": "notes/06_TransformersPositionalEncoding.html#self-attention",
+    "href": "notes/06_TransformersPositionalEncoding.html#self-attention",
+    "title": "Transformers and Positional Encoding",
+    "section": "Self-Attention",
+    "text": "Self-Attention\n\nThe self-attention layer takes in one-hot encodings of words and returns a linear combination of the inputted vectors\n\n\nNote: the subsequent stacked layers take in linear combinations of vectors and return probability distributions\n\n\nAt the end, the vectors are passed into another trained aspect of the model that takes in the linear combination of vectors from the previous attention layers and returns a probability distribution of the next word\n\n\n\n\n\nThis model is implemented via matrix multiplications simplified into the following diagram.\n\n\n\n\nHere, the “W” matrices are simply trained weights and the “X” matrix is the inputted words. The “X” matrix is broken up into queries, keys, and values that are run through the matrix multiplications. After, they are passed through the softmax to create a probability distribution\n\nWe begin by establishing that each predicted vector \\(y^{(i)}\\) should be a linear combination of the other words in the vocabulary. That is,\nOne way to calculate the similarity between the ith and jth words is softmax.\nHowever, we aren’t fully leveraging the power of deep learning. Note that since attention models are fully connected, they can be thought of in terms of matrix multiplication. This motivates a modified approach.\nIncorporating a weight matrix \\(W^{(v)}\\) we write,\nWe’ve encountered an issue: computing the outputs in this way is extremely time consuming. How can we refine this approach?\nLet \\(X\\) be the matrix containing the vector embeddings of each word and consider the \\(W^{(q)}x^{(j)}\\) term. Note that by indexing the jth row of the resulting matrix of \\(XW^{(q)^T}\\) we obtain \\(W^{(q)}x^{(j)}\\). Similarly, if we index the jth column of \\((XW^{(k)^T})^T\\) we can find \\(W^{(k)}x^{(i)}\\). Then, because softmax produces a vector, call it \\(v^{(i)}\\), we can rewrite this as,\nWe now have a succinct way of representing the desired outputs in terms of matrix multiplication, a task modern GPUs are very good at. By indexing the jth row of this resulting matrix, we can obtain \\(y^{(j)}\\).\n\n\nSelf-attention got its name because the queries and keys are the same\nSelf-attention layers are stacked on top of each other\n\nSome models use as much as 96 layers in sequence. Also possible to utilize them with multiple self-attentions in one layer.\n\nAt the end, a sequence of vectors is returned that can be interpreted as a probability distribution of the next word.\nNext, the value should be interpreted as a probability. Training is required to improve this.\nThis process is achieved by repeatedly testing the model against known text with select words removed. The model then predicts the word and is evaluated via the cross entropy loss function and then, the weights are updated."
+  },
+  {
+    "objectID": "notes/06_TransformersPositionalEncoding.html#cross-attention",
+    "href": "notes/06_TransformersPositionalEncoding.html#cross-attention",
+    "title": "Transformers and Positional Encoding",
+    "section": "Cross-Attention",
+    "text": "Cross-Attention\n\nModivation: Cross-Attention allows for the translation of meaning between languages. It differs from Self-Attention because Cross-Attention analyzes the connections between two sequences and Self-Attention analyzes only one sequence.\nIn implementation, Cross-Attention is very similar to Self-Attention with the small tweaks highlighted on the following diagram"
+  },
+  {
+    "objectID": "notes/06_TransformersPositionalEncoding.html#positional-encoding",
+    "href": "notes/06_TransformersPositionalEncoding.html#positional-encoding",
+    "title": "Transformers and Positional Encoding",
+    "section": "Positional Encoding",
+    "text": "Positional Encoding\n\nModivation: Consider the time representation 1,065,066,880 minutes since 0 BC. This is not easily understandable. In practice, instead of this, we encode this time as 11:24am Tuesday, Jan 14, 2025. This is an example of positional encoding. The minute, day, and date are all useful for scheduling. The hour attribute captures the time of day, month captures the time of year, and year counts the years past.\n\n\n\n\n\nA certain time can be encoded by drawing a line from through the different sinusodial fucntions, like the red line shown above. These values can be thought of as the result of different sinusodial functions. All of this culminates to a much more readable value. This concept will be utilized in machine learning by encoding strings in a similar manner in a subsequent lecture."
   }
 ]
