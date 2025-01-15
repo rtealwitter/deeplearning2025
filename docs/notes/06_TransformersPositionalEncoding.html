@@ -203,13 +203,13 @@ window.Quarto = {
 <section id="modivation" class="level2">
 <h2 class="anchored" data-anchor-id="modivation">Modivation</h2>
 <p>
-Given example sentence: the cow jumped over the moon. Covert the sentence into an nxd tensor (n is the number of words, d is the vector length) where each words is one-hot encoded into a
+Given the example sentence: the cow jumped over the moon. Convert the sentence into an nxd tensor (n is the number of words, d is the vector length) where each words is one-hot encoded into a vector.
 </p>
 <p>
 Another example sentence: the cat plays the fiddle
 </p>
 <p>
-</p><p>Convert the sentence into an mxd tensor (m is the number of words, d is vector length) Now, we want the following: takes sequences of varying lengths, accounts for short range and long range dependencies, and considers context of words (i.e.&nbsp;fiddle with door vs.&nbsp;fiddle the instrument)</p>
+</p><p>Convert the sentence into an mxd tensor (m is the number of words, d is vector length). Now, we want the following: takes sequences of varying lengths, accounts for short range and long range dependencies, and considers context of words (i.e.&nbsp;fiddle with door vs.&nbsp;fiddle the instrument).</p>
 Attention is the solution… We will consider two versions of attention: Self-Attention and Cross-Attention
 <p></p>
 </section>
@@ -235,19 +235,20 @@ This model is implemented via matrix multiplications simplified into the followi
 <p>
 Here, the “W” matrices are simply trained weights and the “X” matrix is the inputted words. The “X” matrix is broken up into queries, keys, and values that are run through the matrix multiplications. After, they are passed through the softmax to create a probability distribution
 </p>
-We begin by establishing that each predicted vector <span class="math inline">\(y^{(i)}\)</span> should be a linear combination of the other words in the vocabulary. That is,
-One way to calculate the similarity between the ith and jth words is softmax.
+We begin by establishing that each predicted vector <span class="math inline">\(y^{(i)}\)</span> should be a linear combination of the other words in the vocabulary. That is, <span class="math inline">\(y^{(i)}=\sum_{i=1}^n x^{i}sim(i,j)\)</span> One way to calculate the similarity between the ith and jth words is softmax.
 However, we aren’t fully leveraging the power of deep learning. Note that since attention models are fully connected, they can be thought of in terms of matrix multiplication. This motivates a modified approach.
-Incorporating a weight matrix <span class="math inline">\(W^{(v)}\)</span> we write,
+<p>Incorporating a weight matrix <span class="math inline">\(W^{(v)}\)</span> we write,</p>
+<p><span class="math inline">\(y^{(i)}=\sum_{i=1}^n W^{(v)}x^{i}soft(&lt;W^{(k)}x^{(i)},W^{(q)}x^{(j)}&gt;)\)</span> <span class="math inline">\(\Rightarrow W^{(v)}\sum_{i=1}^n x^{i}soft(x^{(i)^T}W^{(k)^T}W^{(q)}x^{(j)})\)</span></p>
 <p>We’ve encountered an issue: computing the outputs in this way is extremely time consuming. How can we refine this approach?</p>
-Let <span class="math inline">\(X\)</span> be the matrix containing the vector embeddings of each word and consider the <span class="math inline">\(W^{(q)}x^{(j)}\)</span> term. Note that by indexing the jth row of the resulting matrix of <span class="math inline">\(XW^{(q)^T}\)</span> we obtain <span class="math inline">\(W^{(q)}x^{(j)}\)</span>. Similarly, if we index the jth column of <span class="math inline">\((XW^{(k)^T})^T\)</span> we can find <span class="math inline">\(W^{(k)}x^{(i)}\)</span>. Then, because softmax produces a vector, call it <span class="math inline">\(v^{(i)}\)</span>, we can rewrite this as,
+<p>Let <span class="math inline">\(X\)</span> be the matrix containing the vector embeddings of each word and consider the <span class="math inline">\(W^{(q)}x^{(j)}\)</span> term. Note that by indexing the jth row of the resulting matrix of <span class="math inline">\(XW^{(q)^T}\)</span> we obtain <span class="math inline">\(W^{(q)}x^{(j)}\)</span>. Similarly, if we index the jth column of <span class="math inline">\((XW^{(k)^T})^T\)</span> we can find <span class="math inline">\(W^{(k)}x^{(i)}\)</span>. Then, because softmax produces a vector, call it <span class="math inline">\(v^{(i)}\)</span>, we can rewrite this as,</p>
+<p><span class="math inline">\(W^{(v)}\sum_{i=1}^n x^{i}soft(x^{(i)^T}W^{(k)^T}W^{(q)}x^{(j)})\)</span> <span class="math inline">\(\Rightarrow soft(XW^{(q)^T}W^{(k)^T}X)XW^{(v)}\)</span></p>
 <p>We now have a succinct way of representing the desired outputs in terms of matrix multiplication, a task modern GPUs are very good at. By indexing the jth row of this resulting matrix, we can obtain <span class="math inline">\(y^{(j)}\)</span>.</p>
 <p>
 </p><ol type="1">
 <li>Self-attention got its name because the queries and keys are the same</li>
 <li>Self-attention layers are stacked on top of each other
 <ol type="a">
-<li>Some models use as much as 96 layers in sequence. Also possible to utilize them with multiple self-attentions in one layer.</li>
+<li>Some models use as many as 96 layers in sequence. Also possible to utilize them with multiple self-attentions in one layer.</li>
 </ol></li>
 <li>At the end, a sequence of vectors is returned that can be interpreted as a probability distribution of the next word.</li>
 <li>Next, the value should be interpreted as a probability. Training is required to improve this.</li>
@@ -275,6 +276,7 @@ Modivation: Consider the time representation 1,065,066,880 minutes since 0 BC. T
 </center>
 <p>
 </p><p>A certain time can be encoded by drawing a line from through the different sinusodial fucntions, like the red line shown above. These values can be thought of as the result of different sinusodial functions. All of this culminates to a much more readable value. This concept will be utilized in machine learning by encoding strings in a similar manner in a subsequent lecture.</p>
+In practice, we add on this new information to the bottom of each of the one-hot encoded vectors and access it later to retrieve the positional information.
 <p></p>
 
 
