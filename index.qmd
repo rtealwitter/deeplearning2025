@@ -1,0 +1,174 @@
+---
+title: "**CSCI 1051: Deep Learning**"
+output:
+  html_document:
+    css: styles.css
+---
+
+<center>
+Deep learning from theoretical foundations to state-of-the-art applications.
+</center>
+
+<br>
+
+<div class="row">
+  <div class="col" markdown="1">
+  **Instructor**: [R. Teal Witter](https://www.rtealwitter.com/). Please call me Teal.
+  
+  **Class Times**: We meet Monday, Tuesday, Wednesday, and Thursday in 75 Shannon St Room 202. The lecture is from 10am to noon and the discussion is from 2 to 4pm.
+  
+  **Office Hours**: I will hold office hours in 75 Shannon St Room 221 from 3 to 4pm.
+  
+  **Participation**: I expect you to engage in class, ask questions, and make connections. So I can check in with you, please fill out [this](https://forms.gle/92hyvcHtCw4m62DWA) form every lecture.
+
+  **Scribed Notes**: Notes are a great resource for augmenting your in-class learning. Since I updated the material in this course, I would like to ask for your help in writing these notes. You can find the assignment [here](notes/assignment.pdf).
+    
+  </div>
+  <div class="col" markdown="1">
+  **Assignments**: You will receive one problem per class. I expect you to solve the problem with your group during the discussion (I'll be there to answer questions). Once you have solved the problem, you should write up your solution on your own. In addition, there will be a project on a lecture topic of your choice.
+  
+  <table style="width: 100%; border-collapse: collapse;">
+  <tr>
+    <td>Assignment</td>
+    <td>Due</td>
+  </tr>
+  <tr>
+    <td>[Problem Set 1](psets/pset1.pdf) ([LaTeX](psets/pset1.tex))</td>
+    <td>Friday 1/10</td>
+  </tr>
+  <tr>
+    <td>[Problem Set 2](psets/pset2.pdf) ([LaTeX](psets/pset2.tex))</td>
+    <td>Friday 1/17</td>
+  </tr>
+  <tr>
+    <td>Problem Set 3</td>
+    <td>Friday 1/24</td>
+  </tr>
+  <tr>
+    <td>Problem Set 4</td>
+    <td>Wednesday 1/29</td>
+  </tr>
+  <tr>
+    <td>[Project Proposal](project/proposal.pdf)</td>
+    <td>Sunday 1/26</td>
+  </tr>
+  <tr>
+    <td>[Project](project/project.pdf)</td>
+    <td>Friday 1/31</td>
+  </tr>
+</table>
+
+  </div>
+</div>
+
+<table style="width: 100%; border-collapse: collapse;">
+  <tr>
+    <td>Class</td>
+    <td>Topic</td>
+    <td>Slides</td>
+    <td>Resources</td>
+  </tr>
+  <tr class="section-header">
+    <td colspan="4" >The Three-Step Framework</td>
+  </tr>
+  <tr>
+    <td>Monday 1/6</td>
+    <td>Linear Regression and Mean Squared Error</td>
+    <td>[Slides](slides/01_regression.pdf)</td>
+    <td>[Notes](notes/01_regression.html)</td>
+  </tr>
+  <tr>
+    <td>Tuesday 1/7</td>
+    <td>Logistic Regression and Cross Entropy Loss</td>
+    <td>[Slides](slides/02_logistic.pdf)</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Wednesday 1/8</td>
+    <td>Gradient Descent and Neural Networks</td>
+    <td>[Slides](slides/03_networks.pdf)</td>
+    <td>[Notes](https://chinmayhegde.github.io/dl-notes/notes/lecture02/)</td>
+  </tr>
+  <tr>
+    <td>Thursday 1/9</td>
+    <td>Back-propagation and Optimization</td>
+    <td>[Slides](slides/04_optimization.pdf)</td>
+    <td>[Notes](https://chinmayhegde.github.io/dl-notes/notes/lecture03/)</td>
+  </tr>
+  <tr class="section-header">
+    <td colspan="4">Language Generation</td>
+  </tr>
+  <tr>
+    <td>Monday 1/13</td>
+    <td>Language Embeddings and Contrastive Loss</td>
+    <td>[Slides](slides/05_language.pdf)</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Tuesday 1/14</td>
+    <td>Transformers and Positional Encoding</td>
+    <td>[Slides](slides/06_transformers.pdf)</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Wednesday 1/15</td>
+    <td>Low Rank Adaptation and Sparse Autoencoders</td>
+    <td>[Slides](slides/07_lora.pdf)</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Thursday 1/16</td>
+    <td>Watermarking</td>
+    <td>[Slides](slides/08_watermarking.pdf)</td>
+    <td></td>
+  </tr>
+  <tr class="section-header">
+    <td colspan="4" >Image Generation</td>
+  </tr>
+  <tr>
+    <td>Tuesday 1/21</td>
+    <td>Convolutional Neural Networks and Image Embeddings</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Wednesday 1/22</td>
+    <td>Diffusion</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Thursday 1/23</td>
+    <td>Schrödinger Bridges</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr class="section-header">
+    <td colspan="4" >AI Safety</td>
+  </tr>
+  <tr>
+    <td>Monday 1/27</td>
+    <td>Interpretability</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Tuesday 1/28</td>
+    <td>Project Preparation</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Wednesday 1/29</td>
+    <td>Project Preparation</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Thursday 1/30</td>
+    <td>Project Presentations</td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+

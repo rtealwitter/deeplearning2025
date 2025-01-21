@@ -1,0 +1,31 @@
+project:
+  type: website
+  output-dir: docs
+  resources: CNAME
+
+format:
+  html:
+    theme: [cosmo, custom_theme.scss]
+    css: styles.css
+    toc: false
+    include-in-header: header.html
+    page-layout: full
+
+website:
+  favicon: favicon.ico
+  navbar:    
+    css: styles.css
+    title: "Winter 2025"
+    search: false
+    left:
+      - text: "Canvas"
+        href: https://middlebury.instructure.com/courses/16004
+      - text: "Gradescope"
+        href: https://www.gradescope.com/courses/934368
+      - text: "Syllabus"
+        href: syllabus.html
+      - text: "Prior Years"
+        menu:
+            - text: "Winter 2023"
+              href: https://www.rtealwitter.com/deeplearning2023/
+      
