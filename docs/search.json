@@ -89,5 +89,61 @@
     "title": "Linear Regression and Mean Squared Error",
     "section": "Conclusion",
     "text": "Conclusion\nWe’ve learned about the basic building blocks of machine learning and used them to understand linear regression. We’ve seen how to define the model, loss, and optimizer. We’ve also seen how to solve the linear regression problem in both the univariate and multivariate settings.\nThere are two big questions that our discussion of linear regression raises:\n\nWhat if the data does not have a linear relationship?\nWhat happens when our model is too complex to solve for the exact solution?\n\nWe will answer these questions in future lectures as we explore logistic regression, neural networks, and gradient descent."
+  },
+  {
+    "objectID": "notes/LoRa.html",
+    "href": "notes/LoRa.html",
+    "title": "Low Rank Adaptation (LoRA) and Sparse Autoencoders",
+    "section": "",
+    "text": "Large Language Models (LLMs) like GPT and BERT are powerful but face several challenges:\n\nMassive Size: LLMs contain billions of parameters, making them computationally intensive.\nDomain Adaptation: Tasks like understanding medical or legal terminology require model fine-tuning.\nHigh Computational Costs: Fine-tuning all parameters of such models is resource-heavy and time-consuming.\n\nSolution: Low Rank Adaptation (LoRA) provides a parameter-efficient approach to fine-tuning by updating only a subset of parameters, maintaining performance while significantly reducing costs."
+  },
+  {
+    "objectID": "notes/LoRa.html#introduction",
+    "href": "notes/LoRa.html#introduction",
+    "title": "Low Rank Adaptation (LoRA) and Sparse Autoencoders",
+    "section": "",
+    "text": "Large Language Models (LLMs) like GPT and BERT are powerful but face several challenges:\n\nMassive Size: LLMs contain billions of parameters, making them computationally intensive.\nDomain Adaptation: Tasks like understanding medical or legal terminology require model fine-tuning.\nHigh Computational Costs: Fine-tuning all parameters of such models is resource-heavy and time-consuming.\n\nSolution: Low Rank Adaptation (LoRA) provides a parameter-efficient approach to fine-tuning by updating only a subset of parameters, maintaining performance while significantly reducing costs."
+  },
+  {
+    "objectID": "notes/LoRa.html#how-lora-works",
+    "href": "notes/LoRa.html#how-lora-works",
+    "title": "Low Rank Adaptation (LoRA) and Sparse Autoencoders",
+    "section": "How LoRA Works",
+    "text": "How LoRA Works\n\nKey Idea\nLoRA approximates the weight matrix \\(W\\) using low-rank decomposition:\n\\[\nW \\approx W_0 + A \\times B\n\\]\nWhere: - \\(W_0\\): Pre-trained weight matrix (frozen during fine-tuning). - \\(A\\): Low-rank matrix of size \\(d \\times r\\). - \\(B\\): Low-rank matrix of size \\(r \\times k\\). - \\(r\\): Rank of decomposition, controlling the trade-off between computational efficiency and accuracy.\nThis reduces trainable parameters from \\(O(d \\times k)\\) to \\(O(d \\times r + r \\times k)\\), where \\(r \\ll k\\).\n\n\n\nSelf-Attention and LoRA Integration\n\nOriginal Self-Attention:\nIn transformers, attention is computed as: \\[\n\\text{Attention} = \\text{Softmax}(QK^\\top)V\n\\] Where: - \\(Q\\), \\(K\\), and \\(V\\) are weight matrices for queries, keys, and values.\nComputational Complexity: \\(O(n^2d)\\) for a single layer, where \\(d\\) is the dimensionality of the weight matrices.\n\n\nLoRA Optimization:\nLoRA modifies \\(Q\\) and \\(K\\) with low-rank decomposition: \\[\nQ' = Q_0 + A_1B_1, \\quad K' = K_0 + A_2B_2\n\\]\nThis reduces the complexity to \\(O(n^2r)\\), where \\(r\\) is much smaller than \\(d\\). Consequently: - Reduced Cost: Memory and computation requirements drop significantly. - Efficiency Gains: Focused updates ensure faster fine-tuning.\n\n\n\n\nAdvantages of LoRA\n\nParameter Efficiency: Only \\(A\\) and \\(B\\) are updated, reducing memory and computational overhead.\nScalability: Works effectively with large models in constrained environments.\nTask-Specific Adaptation: Fine-tunes models for niche domains without retraining the entire network.\n\n\n\nChallenges\n\nTrade-offs: Low-rank approximation may slightly degrade performance for highly complex tasks.\nHyperparameter Sensitivity: Selecting the optimal rank \\(r\\) is critical for balancing efficiency and accuracy.\n\n\nComparison of LoRA Performance:\nBelow are visual representations of model performance with and without LoRA:\n\nWithout LoRA: \nWith LoRA:"
+  },
+  {
+    "objectID": "notes/LoRa.html#sparse-autoencoders",
+    "href": "notes/LoRa.html#sparse-autoencoders",
+    "title": "Low Rank Adaptation (LoRA) and Sparse Autoencoders",
+    "section": "Sparse Autoencoders",
+    "text": "Sparse Autoencoders\n\nOverview\nSparse autoencoders are designed to learn compressed, meaningful representations of input data by enforcing sparsity constraints on the bottleneck layer.\n\n\nHow They Work\n\nEncoder: Compresses input \\(X\\) to a low-dimensional representation \\(Z\\): \\[\nZ = f(W_eX + b_e)\n\\]\nSparse Bottleneck: Introduces sparsity using penalties like \\(L_1\\) regularization or KL divergence: \\[\n\\text{Sparsity Penalty} = \\sum \\text{KL}(\\rho \\parallel \\hat{\\rho})\n\\]\nDecoder: Reconstructs the input from \\(Z\\): \\[\nX' = f(W_dZ + b_d)\n\\]\n\n\n\nLoss Function\nMinimizes: \\[\n\\text{Loss} = \\text{Reconstruction Loss} + \\text{Sparsity Penalty}\n\\]"
+  },
+  {
+    "objectID": "notes/LoRa.html#how-sparse-autoencoders-work",
+    "href": "notes/LoRa.html#how-sparse-autoencoders-work",
+    "title": "Low Rank Adaptation (LoRA) and Sparse Autoencoders",
+    "section": "How Sparse Autoencoders Work",
+    "text": "How Sparse Autoencoders Work\n\nEncoder:\n\nCompresses input \\(X\\) into a low-dimensional latent representation: \\[\nZ = f(W_eX + b_e)\n\\]\nWhere \\(W_e\\) is the weight matrix, \\(b_e\\) is the bias, and \\(f\\) is the activation function.\n\nSparse Bottleneck:\n\nEnforces sparsity in the latent space using penalties like \\(L_1\\) regularization or KL divergence: \\[\n\\text{Sparsity Penalty} = \\sum \\text{KL}(\\rho \\parallel \\hat{\\rho})\n\\]\n\nDecoder:\n\nReconstructs the input from the sparse latent representation: \\[\nX' = f(W_dZ + b_d)\n\\]\n\n\n\n\nLoss Function\nSparse autoencoders minimize:\n\\[\n\\text{Loss} = \\text{Reconstruction Loss} + \\text{Sparsity Penalty}\n\\]"
+  },
+  {
+    "objectID": "notes/LoRa.html#comparison-lora-vs-sparse-autoencoders",
+    "href": "notes/LoRa.html#comparison-lora-vs-sparse-autoencoders",
+    "title": "Low Rank Adaptation (LoRA) and Sparse Autoencoders",
+    "section": "Comparison: LoRA vs Sparse Autoencoders",
+    "text": "Comparison: LoRA vs Sparse Autoencoders\n\n\n\n\n\n\n\n\nAspect\nLow Rank Adaptation (LoRA)\nSparse Autoencoders\n\n\n\n\nPurpose\nEfficient fine-tuning of large models.\nLearning compressed representations.\n\n\nArchitecture\nLow-rank matrices in LLM layers.\nEncoder → Sparse Bottleneck → Decoder.\n\n\nEfficiency\nHigh (due to low-rank decomposition).\nModerate, depends on sparsity.\n\n\nParameter Updates\nUpdates only \\(A\\) and \\(B\\).\nUpdates all weights.\n\n\nApplications\nDomain-specific model fine-tuning.\nFeature extraction and pre-training.\n\n\nScalability\nExcellent for large models.\nLimited for very large datasets."
+  },
+  {
+    "objectID": "notes/LoRa.html#conclusion",
+    "href": "notes/LoRa.html#conclusion",
+    "title": "Low Rank Adaptation (LoRA) and Sparse Autoencoders",
+    "section": "Conclusion",
+    "text": "Conclusion\n\nLoRA: Revolutionizes fine-tuning large-scale models by introducing low-rank updates, making it cost-effective and scalable.\nSparse Autoencoders: Serve as a tool for learning meaningful representations but are more suited for feature extraction and data compression than model adaptation.\n\nUnderstanding these techniques helps practitioners optimize performance based on the specific needs of their applications."
+  },
+  {
+    "objectID": "notes/LoRa.html#detailed-insights-and-concepts",
+    "href": "notes/LoRa.html#detailed-insights-and-concepts",
+    "title": "Low Rank Adaptation (LoRA) and Sparse Autoencoders",
+    "section": "Detailed Insights and Concepts",
+    "text": "Detailed Insights and Concepts\n\nMathematical Insights\n\nLow-Rank Decomposition:\n\nThe low-rank approximation of \\(W\\) enables significant savings in computational complexity while retaining most of the model’s expressive power.\n\n\n\nAttention Mechanisms:\n\nAttention layers rely on \\(Q\\), \\(K\\), and \\(V\\) weight matrices.\nLoRA applies decomposed matrices (\\(A\\), \\(B\\)) to specific layers, minimizing the need to modify the frozen \\(W_0\\).\n\n\n\nComputational Trade-offs:\n\nFor rank \\(r\\), the total parameters added are linear in \\(r\\) rather than quadratic in \\(d\\). This results in substantial reductions in both memory usage and training time.\n\n\n\n\nApplications of LoRA:\n\nMedical Applications: Fine-tuning models to understand clinical terminology.\nLegal Industry: Adaptation for domain-specific jargon and context-sensitive understanding.\nResource-Constrained Environments: Efficient tuning of models on edge devices.\n\n\n\nSparse Autoencoders: Advanced Details\n\nSparsity Constraints:\n\nEnforcing sparsity promotes the learning of disentangled representations, often critical for feature extraction and compression tasks.\n\n\n\nUse Cases:\n\nDimensionality Reduction: Effective for data visualization and compression.\nPre-training for Neural Networks: Acts as an initialization method for downstream tasks."
   }
 ]
