@@ -120,7 +120,7 @@ Variational autoencoders (VAEs) solve this problem probabilistically by introduc
 
 <center><img src="images\VariationalAutoencoder.png" width="700"></center>
 
-The encoder outputs the mean $\mu$ and standard deviation $\sigma$ of the latent distribution, and we sample a latent vector $z\sim\mathcal{N}(\mu, diag(\sigma^2))$ from this distribution using:
+The encoder outputs the mean $\mu$ and standard deviation $\sigma$ of the latent distribution, and we sample a latent vector $z\sim\mathcal{N}(\mu, \text{diag}(\sigma^2))$ from this distribution using:
 
 $$z = \mu + \sigma \epsilon$$
 
@@ -128,7 +128,7 @@ where $\epsilon$ is sampled from a Gaussian distribution $\epsilon\sim\mathcal{N
 
 The loss function for VAEs consists of two parts:
 
-1. Reconstruction loss: $L_{reconstruction}=||g(f(x))-x||^2_2$. This measures how well the decoder reconstructs the input from the latent vector.
-2. KL divergence: $L_{variational}=dist(\mathcal{N}(0, I), \mathcal{N}(\mu, diag(\sigma^2)))$. This measures how close the learned latent distribution is to the normal distribution.
+1. Reconstruction loss: $L_{\text{reconstruction}}=||g(f(x))-x||^2_2$. This measures how well the decoder reconstructs the input from the latent vector.
+2. KL divergence: $L_{\text{variational}}=\text{dist}(\mathcal{N}(0, I), \mathcal{N}(\mu, \text{diag}(\sigma^2)))$. This measures how close the learned latent distribution is to the normal distribution.
 
 Thus, the reconstruction is both meaningful and the latent space is evenly distributed.
