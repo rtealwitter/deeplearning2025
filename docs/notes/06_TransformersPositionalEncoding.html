@@ -171,7 +171,7 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#modivation" id="toc-modivation" class="nav-link active" data-scroll-target="#modivation">Modivation</a></li>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a></li>
   <li><a href="#self-attention" id="toc-self-attention" class="nav-link" data-scroll-target="#self-attention">Self-Attention</a></li>
   <li><a href="#cross-attention" id="toc-cross-attention" class="nav-link" data-scroll-target="#cross-attention">Cross-Attention</a></li>
   <li><a href="#positional-encoding" id="toc-positional-encoding" class="nav-link" data-scroll-target="#positional-encoding">Positional Encoding</a></li>
@@ -200,8 +200,8 @@ window.Quarto = {
 </header>
 
 
-<section id="modivation" class="level2">
-<h2 class="anchored" data-anchor-id="modivation">Modivation</h2>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
 <p>
 Given the example sentence: the cow jumped over the moon. Convert the sentence into an nxd tensor (n is the number of words, d is the vector length) where each words is one-hot encoded into a vector.
 </p>
@@ -230,18 +230,18 @@ At the end, the vectors are passed into another trained aspect of the model that
 <p>
 This model is implemented via matrix multiplications simplified into the following diagram.
 </p><center>
-<img src="images/selfAttentionDiagram1.pdf" width="700">
+<img src="images/selfAttentionDiagram1.png" width="700">
 </center>
 <p>
 Here, the “W” matrices are simply trained weights and the “X” matrix is the inputted words. The “X” matrix is broken up into queries, keys, and values that are run through the matrix multiplications. After, they are passed through the softmax to create a probability distribution
 </p>
-We begin by establishing that each predicted vector <span class="math inline">\(y^{(i)}\)</span> should be a linear combination of the other words in the vocabulary. That is, <span class="math inline">\(y^{(i)}=\sum_{i=1}^n x^{i}sim(i,j)\)</span> One way to calculate the similarity between the ith and jth words is softmax.
+We begin by establishing that each predicted vector <span class="math inline">\(y^{(i)}\)</span> should be a linear combination of the other words in the vocabulary. That is, <span class="math inline">\(y^{(i)}=\sum_{i=1}^n x^{i}\text{sim}(i,j)\)</span> One way to calculate the similarity between the ith and jth words is softmax.
 However, we aren’t fully leveraging the power of deep learning. Note that since attention models are fully connected, they can be thought of in terms of matrix multiplication. This motivates a modified approach.
 <p>Incorporating a weight matrix <span class="math inline">\(W^{(v)}\)</span> we write,</p>
-<p><span class="math inline">\(y^{(i)}=\sum_{i=1}^n W^{(v)}x^{i}soft(&lt;W^{(k)}x^{(i)},W^{(q)}x^{(j)}&gt;)\)</span> <span class="math inline">\(\Rightarrow W^{(v)}\sum_{i=1}^n x^{i}soft(x^{(i)^T}W^{(k)^T}W^{(q)}x^{(j)})\)</span></p>
+<p><span class="math inline">\(y^{(i)}=\sum_{i=1}^n W^{(v)}x^{i}\text{soft}(&lt;W^{(k)}x^{(i)},W^{(q)}x^{(j)}&gt;)\)</span> <span class="math inline">\(\Rightarrow W^{(v)}\sum_{i=1}^n x^{i}\text{soft}(x^{(i)^T}W^{(k)^T}W^{(q)}x^{(j)})\)</span></p>
 <p>We’ve encountered an issue: computing the outputs in this way is extremely time consuming. How can we refine this approach?</p>
 <p>Let <span class="math inline">\(X\)</span> be the matrix containing the vector embeddings of each word and consider the <span class="math inline">\(W^{(q)}x^{(j)}\)</span> term. Note that by indexing the jth row of the resulting matrix of <span class="math inline">\(XW^{(q)^T}\)</span> we obtain <span class="math inline">\(W^{(q)}x^{(j)}\)</span>. Similarly, if we index the jth column of <span class="math inline">\((XW^{(k)^T})^T\)</span> we can find <span class="math inline">\(W^{(k)}x^{(i)}\)</span>. Then, because softmax produces a vector, call it <span class="math inline">\(v^{(i)}\)</span>, we can rewrite this as,</p>
-<p><span class="math inline">\(W^{(v)}\sum_{i=1}^n x^{i}soft(x^{(i)^T}W^{(k)^T}W^{(q)}x^{(j)})\)</span> <span class="math inline">\(\Rightarrow soft(XW^{(q)^T}W^{(k)^T}X)XW^{(v)}\)</span></p>
+<p><span class="math inline">\(W^{(v)}\sum_{i=1}^n x^{i}\text{soft}(x^{(i)^T}W^{(k)^T}W^{(q)}x^{(j)})\)</span> <span class="math inline">\(\Rightarrow \text{soft}(XW^{(q)^T}W^{(k)^T}X)XW^{(v)}\)</span></p>
 <p>We now have a succinct way of representing the desired outputs in terms of matrix multiplication, a task modern GPUs are very good at. By indexing the jth row of this resulting matrix, we can obtain <span class="math inline">\(y^{(j)}\)</span>.</p>
 <p>
 </p><ol type="1">
@@ -262,7 +262,7 @@ However, we aren’t fully leveraging the power of deep learning. Note that sinc
 </p><p>Modivation: Cross-Attention allows for the translation of meaning between languages. It differs from Self-Attention because Cross-Attention analyzes the connections between two sequences and Self-Attention analyzes only one sequence.</p>
 In implementation, Cross-Attention is very similar to Self-Attention with the small tweaks highlighted on the following diagram
 <center>
-<img src="images/crossAttentionDiagram1.pdf" width="700">
+<img src="images/crossAttentionDiagram1.png" width="700">
 </center>
 <p></p>
 </section>
@@ -276,7 +276,10 @@ Modivation: Consider the time representation 1,065,066,880 minutes since 0 BC. T
 </center>
 <p>
 </p><p>A certain time can be encoded by drawing a line from through the different sinusodial fucntions, like the red line shown above. These values can be thought of as the result of different sinusodial functions. All of this culminates to a much more readable value. This concept will be utilized in machine learning by encoding strings in a similar manner in a subsequent lecture.</p>
-In practice, we add on this new information to the bottom of each of the one-hot encoded vectors and access it later to retrieve the positional information.
+In practice, we add on this new information to the bottom of each of the one-hot encoded vectors and access it later to retrieve the positional information. In true LLMs, self-attention and cross attention layers are implemented in series and in parallel, each focusing on different elements of the input text.
+<center>
+<img src="images/LLMStructureExample.png" width="700">
+</center>
 <p></p>
 
 
