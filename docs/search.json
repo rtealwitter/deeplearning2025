@@ -89,5 +89,19 @@
     "title": "Linear Regression and Mean Squared Error",
     "section": "Conclusion",
     "text": "Conclusion\nWe’ve learned about the basic building blocks of machine learning and used them to understand linear regression. We’ve seen how to define the model, loss, and optimizer. We’ve also seen how to solve the linear regression problem in both the univariate and multivariate settings.\nThere are two big questions that our discussion of linear regression raises:\n\nWhat if the data does not have a linear relationship?\nWhat happens when our model is too complex to solve for the exact solution?\n\nWe will answer these questions in future lectures as we explore logistic regression, neural networks, and gradient descent."
+  },
+  {
+    "objectID": "notes/12_interpretability.html",
+    "href": "notes/12_interpretability.html",
+    "title": "Interpretability and Shapley Values",
+    "section": "",
+    "text": "Deep Learning/Machine Learning (DL/ML) is increasingly embedded in critical domains like healthcare, finance, law, policing, and more. Models often achieve impressive predictive accuracy, yet for real-world adoption we also need Trust & Transparency. Simply put, stakeholders must understand why an ML model outputs a particular decision.\nWhile some simpler models (like linear regression) are intrinsically interpretable, state-of-the-art models (like deep neural networks) appear, to us, as “black boxes,” meaning we have a hard time understanding why they make the predictions they do. Shapley values provide a formal, axiom-based framework for attributing a model’s prediction to its input features, helping to (hopefully) allow us to get a better understanding of what’s going on within the “black box.”"
+  },
+  {
+    "objectID": "notes/12_interpretability.html#motivation",
+    "href": "notes/12_interpretability.html#motivation",
+    "title": "Interpretability and Shapley Values",
+    "section": "",
+    "text": "Deep Learning/Machine Learning (DL/ML) is increasingly embedded in critical domains like healthcare, finance, law, policing, and more. Models often achieve impressive predictive accuracy, yet for real-world adoption we also need Trust & Transparency. Simply put, stakeholders must understand why an ML model outputs a particular decision.\nWhile some simpler models (like linear regression) are intrinsically interpretable, state-of-the-art models (like deep neural networks) appear, to us, as “black boxes,” meaning we have a hard time understanding why they make the predictions they do. Shapley values provide a formal, axiom-based framework for attributing a model’s prediction to its input features, helping to (hopefully) allow us to get a better understanding of what’s going on within the “black box.”"
   }
 ]
