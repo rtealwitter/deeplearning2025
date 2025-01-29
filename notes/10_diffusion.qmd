@@ -1,0 +1,121 @@
+---
+title: "**Generative Adverserial Networks and Diffusion**"
+format:
+  html:
+    toc: true
+    math: true
+---
+
+## Motivation
+
+With both diffusion and Generative Adversarial Networks, or GANs, the goal is to train a model that can generate new, realistic images from noise.
+
+## Generative Adversarial Networks (GANs)
+
+Given a vector $z \sim \mathcal{N}(0,I)$, there is some generator that is trained to generate images that are as realistic as possible from this input noise vector.
+
+Once this image is generated, it is put through a discriminator, which takes an image/ embedding as an input and
+outputs a 2-dimensional vector, which, after being put through the softmax,
+represents the probabilities of the image being real or fake/ generated such that
+$\begin{bmatrix}
+\Pr(\text{real}) \\
+\Pr(\text{fake})
+\end{bmatrix}$.
+
+This discriminator is trained on a dataset of 50/50 generated and real images, which are labeled with their probabilities,
+$\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}$ for real images, and
+$\begin{bmatrix}
+0 \\
+1
+\end{bmatrix}$ for generated images.
+
+### Loss functions
+So what loss functions should we use for GANs? The first step is to break it up into $\mathcal{L}_{\text{generator}}$ and $\mathcal{L}_{\text{discriminator}}$.
+
+For $\mathcal{L}_{\text{generator}}$, we want to minimize the difference between the generated image and a real image, so we can use Cross Entropy Loss.
+Let $G(x)$ represent the function of the generator, and $D(x)$ represent the function of the discriminator.
+Then, for some $z \sim \mathcal{N}(0,I)$,
+$\mathcal{L}_{\text{generator}} = \text{dist}(\text{D}(\text{G}(z)), \begin{bmatrix}
+1 \\
+0
+\end{bmatrix})$.
+
+When considering the $\mathcal{L}_{\text{discriminator}}$, there are two factors we want to minimize.
+The discriminator should be able to identify both generated and real images accurately, which means that we want to minimize
+the distance between the generator output and $\begin{bmatrix}
+0 \\
+1
+\end{bmatrix}$ as well as minimizing the distance between real images and $\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}$. Thus, our discriminator loss should be as follows:
+$\mathcal{L}_{\text{discriminator}} = \text{dist}(\text{D}(\text{G}(z)), \begin{bmatrix}
+0 \\
+1
+\end{bmatrix}) + \text{dist}(\text{D}(x), \begin{bmatrix}
+1 \\
+0
+\end{bmatrix})$.
+
+### Training GANs
+During training, the generator and discriminator must be trained in tandem, otherwise there is an information loss between them and one
+may not have enough information to be effectively trained. For example, if the discriminator has been pretrained and we are using our loss function,
+the discriminator may be "too good" and always output "fake", and the generator is unable to effectively learn which weighs within the model
+lead to effective output.
+
+Even when training in tandem, though, GANs have a fatal flaw. With enough training, all GANs reach a point at which they figure out how to win this system
+by generating only one very realistic image which corresponds to an actual image in the training data for the discriminator.
+We call this *mode collapse*, and it is the reason that GANs are no longer used to generate images. It is called mode collapse
+because the generator has collapsed to generate only one mode/ output.
+
+## Diffusion
+
+So, what is the answer to mode collapse? A little something called diffusion. Diffusion has the same motivation as GANs,
+ which is to generate realistic images based off of noise. However, this is done by slowly adding (for training) and removing (for evaluation)
+  noise from the input.
+
+Given an input, $x_T \sim \mathcal{N}(0,I)$, the function $f$ reduces noise step by step for $T$ steps. Conversely, to create training data,
+the model starts with an image, $x_0$, and adds Gaussian noise multiplied by some scalar, $\alpha$ , at each step. Therefore, given some $t \sim \{1, ..., T\}$ and $z \sim \mathcal{N}(0,I)$,
+$x_t = \sqrt{\alpha} x_{t-1} + \sqrt{1-\alpha}z$.
+
+Doing this equation many times over would take a lot of time, but with some math we can get straight from $x_T$ to $x_0$.
+
+$\begin{align*}
+x_t &= \sqrt{\alpha} \left( \sqrt{\alpha} x_{t-2} + \sqrt{1-\alpha}z' \right) + \sqrt{1-\alpha}z \\
+&= \sqrt{\alpha} \left( \sqrt{\alpha} \left( \sqrt{\alpha} x_{t-3} + \sqrt{1-\alpha} z'' \right) + \sqrt{1-\alpha} z' \right) + \sqrt{1-\alpha} z\\
+&= \sqrt{\alpha^t} X_0 + \sum_{\ell=0}^{t-1} \sqrt{1-\alpha} \sqrt{\alpha^\ell} z\\
+&= \sqrt{\alpha^t} X_0 + \sqrt{1-\alpha^t} z
+\end{align*}$
+
+We are able to simplify the sum above using the geometric series rule, where
+
+$\begin{align*}
+\sum_{\ell=0}^{t-1} \sqrt{1-\alpha} \sqrt{\alpha^\ell} &= \sum_{\ell=0}^{t-1} (1-\alpha) \alpha^\ell \\
+&= (1-\alpha)*\frac{(1-\alpha^t)}{(1-\alpha)} \\
+&= (1 - \alpha^t)
+\end{align*}$
+
+
+### Training with Diffusion
+For training, we want to remove noise, going from $x_0$ to $x_T$. Therefore, we will follow these steps:
+\begin{align*}
+    &\text{sample } z \sim \mathcal{N}(0, I) \\
+    &\text{sample } t \sim \text{unif}(\{1, \ldots, T\}) \\
+    &x_t = \sqrt{\alpha^t} x_0 + \sqrt{1 - \alpha^t} z \\
+    &\mathcal{L}_f = \| f(x_t, t) - z \|_2^2
+\end{align*}
+
+### Evaluating Diffusion Models
+For evalutation, we are trying to get back to $x_T$ from $x_0$. However, since we are sampling from a Gaussian distribution for $x_T$, we need to account for the case in which $x_T$ is not actually a normal distribution. Therefore, we will go back and forth between $x_T$ and $x_0$, making multiple passes back through the model.
+
+\begin{align*}
+    &x_T \sim \mathcal{N}(0, I) \\
+    &\text{for } t \in \{1, \ldots, T\}: \\
+    &\quad z_{\text{pred}} = f(x_t, t) \\
+    &\quad x_0 = \frac{x_T - \sqrt{1 - \alpha^t} z_{\text{pred}}}{\sqrt{\alpha^t}} \\
+    &\quad z \sim \mathcal{N}(0, I) \\
+    &\quad x_t = \sqrt{\alpha^t} x_0 + \sqrt{1 - \alpha^t} z
+\end{align*}
