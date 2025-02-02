@@ -107,6 +107,8 @@ $$
 \text{Sparsity Penalty} = \sum \text{KL}(\rho \parallel \hat{\rho})
 $$
 
+KL divergence measures the difference between two probability distributions, \( P \) (true distribution) and \( Q \) (approximation). It quantifies how much information is lost when using \( Q \) instead of \( P \), with the formula involving the logarithmic ratio of probabilities. KL divergence is asymmetric, meaning \( D_{\text{KL}}(P \parallel Q) \neq D_{\text{KL}}(Q \parallel P) \), and always non-negative, being zero only when \( P \) and \( Q \) are identical. It’s widely used in machine learning, information theory, and probabilistic models to evaluate how well one distribution approximates another.
+
 3. **Decoder:** Reconstructs the input from $Z$:
 $$
 X' = f(W_dZ + b_d)
@@ -121,20 +123,8 @@ $$
 
 ---
 
-## Comparison: LoRA vs Sparse Autoencoders
 
-| **Aspect**              | **Low Rank Adaptation (LoRA)**          | **Sparse Autoencoders**             |
-|-------------------------|-----------------------------------------|-------------------------------------|
-| **Purpose**             | Efficient fine-tuning of large models.  | Learning compressed representations.|
-| **Architecture**        | Low-rank matrices in LLM layers.        | Encoder → Sparse Bottleneck → Decoder.|
-| **Efficiency**          | High (due to low-rank decomposition).   | Moderate, depends on sparsity.       |
-| **Parameter Updates**   | Updates only $A$ and $B$.               | Updates all weights.                |
-| **Applications**        | Domain-specific model fine-tuning.      | Feature extraction and pre-training.|
-| **Scalability**         | Excellent for large models.             | Limited for very large datasets.     |
 
----
-
-## Detailed Insights and Concepts
 
 ### Mathematical Insights
 
@@ -166,7 +156,5 @@ $$
 
 ## Conclusion
 
-- **LoRA:** Revolutionizes fine-tuning large-scale models by introducing low-rank updates, making it cost-effective and scalable.
+- **LoRA:** Mostly used in fine-tuning large-scale models by introducing low-rank updates, making it cost-effective and scalable.
 - **Sparse Autoencoders:** Serve as a tool for learning meaningful representations but are more suited for feature extraction and data compression than model adaptation.
-
-Understanding these techniques helps practitioners optimize performance based on the specific needs of their applications.
