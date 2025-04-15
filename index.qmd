@@ -150,7 +150,7 @@ Deep learning from theoretical foundations to state-of-the-art applications.
     <td>Monday 1/27</td>
     <td>Interpretability</td>
     <td>[Slides](slides/12_interpretability.pdf)</td>
-    <td></td>
+    <td>[Student Notes](notes/12_Interpretability.html)</td>
   </tr>
   <tr>
     <td>Tuesday 1/28</td>

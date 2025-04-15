@@ -6,6 +6,8 @@ format:
     math: true
 ---
 
+*Written by James Camp and Jacob Collier*
+
 ## Motivation
 
 Deep Learning/Machine Learning (DL/ML) is increasingly embedded in critical domains like **healthcare, finance, law, policing,** and more. Models often achieve impressive predictive accuracy, yet for real-world adoption we also need **Trust & Transparency**. Simply put, stakeholders must understand *why* an ML model outputs a particular decision. 
