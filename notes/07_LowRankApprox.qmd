@@ -6,6 +6,8 @@ format:
     math: mathjax
 ---
 
+*Written by Yahya Rahhawi*
+
 ## Introduction
 
 ### Challenges in Fine-Tuning Large Models

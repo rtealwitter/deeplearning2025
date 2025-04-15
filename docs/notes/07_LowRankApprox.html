@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -36,10 +36,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -126,6 +126,7 @@ window.Quarto = {
     <span class="navbar-title">Winter 2025</span>
     </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -186,10 +187,6 @@ window.Quarto = {
   <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#how-they-work" id="toc-how-they-work" class="nav-link" data-scroll-target="#how-they-work">How They Work</a></li>
   <li><a href="#loss-function" id="toc-loss-function" class="nav-link" data-scroll-target="#loss-function">Loss Function</a></li>
-  </ul></li>
-  <li><a href="#comparison-lora-vs-sparse-autoencoders" id="toc-comparison-lora-vs-sparse-autoencoders" class="nav-link" data-scroll-target="#comparison-lora-vs-sparse-autoencoders">Comparison: LoRA vs Sparse Autoencoders</a></li>
-  <li><a href="#detailed-insights-and-concepts" id="toc-detailed-insights-and-concepts" class="nav-link" data-scroll-target="#detailed-insights-and-concepts">Detailed Insights and Concepts</a>
-  <ul class="collapse">
   <li><a href="#mathematical-insights" id="toc-mathematical-insights" class="nav-link" data-scroll-target="#mathematical-insights">Mathematical Insights</a></li>
   <li><a href="#applications-of-lora" id="toc-applications-of-lora" class="nav-link" data-scroll-target="#applications-of-lora">Applications of LoRA:</a></li>
   <li><a href="#sparse-autoencoders-advanced-details" id="toc-sparse-autoencoders-advanced-details" class="nav-link" data-scroll-target="#sparse-autoencoders-advanced-details">Sparse Autoencoders: Advanced Details</a></li>
@@ -220,6 +217,7 @@ window.Quarto = {
 </header>
 
 
+<p><em>Written by Yahya Rahhawi</em></p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <section id="challenges-in-fine-tuning-large-models" class="level3">
@@ -304,9 +302,12 @@ Z = f(W_eX + b_e)
 <li><p><strong>Sparse Bottleneck:</strong> Introduces sparsity using penalties like <span class="math inline">\(L_1\)</span> regularization or KL divergence: <span class="math display">\[
 \text{Sparsity Penalty} = \sum \text{KL}(\rho \parallel \hat{\rho})
 \]</span></p></li>
-<li><p><strong>Decoder:</strong> Reconstructs the input from <span class="math inline">\(Z\)</span>: <span class="math display">\[
+</ol>
+<p>KL divergence measures the difference between two probability distributions, ( P ) (true distribution) and ( Q ) (approximation). It quantifies how much information is lost when using ( Q ) instead of ( P ), with the formula involving the logarithmic ratio of probabilities. KL divergence is asymmetric, meaning ( D_{}(P Q) D_{}(Q P) ), and always non-negative, being zero only when ( P ) and ( Q ) are identical. It’s widely used in machine learning, information theory, and probabilistic models to evaluate how well one distribution approximates another.</p>
+<ol start="3" type="1">
+<li><strong>Decoder:</strong> Reconstructs the input from <span class="math inline">\(Z\)</span>: <span class="math display">\[
 X' = f(W_dZ + b_d)
-\]</span></p></li>
+\]</span></li>
 </ol>
 </section>
 <section id="loss-function" class="level3">
@@ -316,59 +317,6 @@ X' = f(W_dZ + b_d)
 \]</span></p>
 <hr>
 </section>
-</section>
-<section id="comparison-lora-vs-sparse-autoencoders" class="level2">
-<h2 class="anchored" data-anchor-id="comparison-lora-vs-sparse-autoencoders">Comparison: LoRA vs Sparse Autoencoders</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 24%">
-<col style="width: 39%">
-<col style="width: 35%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><strong>Aspect</strong></th>
-<th><strong>Low Rank Adaptation (LoRA)</strong></th>
-<th><strong>Sparse Autoencoders</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Purpose</strong></td>
-<td>Efficient fine-tuning of large models.</td>
-<td>Learning compressed representations.</td>
-</tr>
-<tr class="even">
-<td><strong>Architecture</strong></td>
-<td>Low-rank matrices in LLM layers.</td>
-<td>Encoder → Sparse Bottleneck → Decoder.</td>
-</tr>
-<tr class="odd">
-<td><strong>Efficiency</strong></td>
-<td>High (due to low-rank decomposition).</td>
-<td>Moderate, depends on sparsity.</td>
-</tr>
-<tr class="even">
-<td><strong>Parameter Updates</strong></td>
-<td>Updates only <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>.</td>
-<td>Updates all weights.</td>
-</tr>
-<tr class="odd">
-<td><strong>Applications</strong></td>
-<td>Domain-specific model fine-tuning.</td>
-<td>Feature extraction and pre-training.</td>
-</tr>
-<tr class="even">
-<td><strong>Scalability</strong></td>
-<td>Excellent for large models.</td>
-<td>Limited for very large datasets.</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-<section id="detailed-insights-and-concepts" class="level2">
-<h2 class="anchored" data-anchor-id="detailed-insights-and-concepts">Detailed Insights and Concepts</h2>
 <section id="mathematical-insights" class="level3">
 <h3 class="anchored" data-anchor-id="mathematical-insights">Mathematical Insights</h3>
 <section id="low-rank-decomposition" class="level4">
@@ -420,10 +368,9 @@ X' = f(W_dZ + b_d)
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <ul>
-<li><strong>LoRA:</strong> Revolutionizes fine-tuning large-scale models by introducing low-rank updates, making it cost-effective and scalable.</li>
+<li><strong>LoRA:</strong> Mostly used in fine-tuning large-scale models by introducing low-rank updates, making it cost-effective and scalable.</li>
 <li><strong>Sparse Autoencoders:</strong> Serve as a tool for learning meaningful representations but are more suited for feature extraction and data compression than model adaptation.</li>
 </ul>
-<p>Understanding these techniques helps practitioners optimize performance based on the specific needs of their applications.</p>
 
 
 
@@ -512,6 +459,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -622,6 +571,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

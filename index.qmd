@@ -114,7 +114,7 @@ Deep learning from theoretical foundations to state-of-the-art applications.
     <td>Wednesday 1/15</td>
     <td>Low Rank Approximation</td>
     <td>[Slides](slides/07_lora.pdf)</td>
-    <td></td>
+    <td>[Student Notes](notes/07_LowRankApprox.html)</td>
   </tr>
   <tr>
     <td>Thursday 1/16</td>
