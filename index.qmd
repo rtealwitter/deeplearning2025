@@ -75,25 +75,25 @@ Deep learning from theoretical foundations to state-of-the-art applications.
     <td>Monday 1/6</td>
     <td>Linear Regression and Mean Squared Error</td>
     <td>[Slides](slides/01_regression.pdf)</td>
-    <td>[Notes](notes/01_regression.html)</td>
+    <td>[My Notes](notes/01_Regression.html)</td>
   </tr>
   <tr>
     <td>Tuesday 1/7</td>
     <td>Logistic Regression and Cross Entropy Loss</td>
     <td>[Slides](slides/02_logistic.pdf)</td>
-    <td></td>
+    <td>[Student Notes](notes/02_LogisticRegAndEntropy.html)</td>
   </tr>
   <tr>
     <td>Wednesday 1/8</td>
     <td>Gradient Descent and Neural Networks</td>
     <td>[Slides](slides/03_networks.pdf)</td>
-    <td>[Notes](https://chinmayhegde.github.io/dl-notes/notes/lecture02/)</td>
+    <td>[Chinmay's Notes](https://chinmayhegde.github.io/dl-notes/notes/lecture02/)</td>
   </tr>
   <tr>
     <td>Thursday 1/9</td>
     <td>Back-propagation and Optimization</td>
     <td>[Slides](slides/04_optimization.pdf)</td>
-    <td>[Notes](https://chinmayhegde.github.io/dl-notes/notes/lecture03/)</td>
+    <td>[Chinmay's Notes](https://chinmayhegde.github.io/dl-notes/notes/lecture03/)</td>
   </tr>
   <tr class="section-header">
     <td colspan="4">Language Generation</td>
@@ -108,7 +108,7 @@ Deep learning from theoretical foundations to state-of-the-art applications.
     <td>Tuesday 1/14</td>
     <td>Transformers and Positional Encoding</td>
     <td>[Slides](slides/06_transformers.pdf)</td>
-    <td>[Notes](notes/06_TransformersPositionalEncoding.html)</td>
+    <td>[Student Notes](notes/06_TransformersPositionalEncoding.html)</td>
   </tr>
   <tr>
     <td>Wednesday 1/15</td>
@@ -120,7 +120,7 @@ Deep learning from theoretical foundations to state-of-the-art applications.
     <td>Thursday 1/16</td>
     <td>Watermarking</td>
     <td>[Slides](slides/08_watermarking.pdf)</td>
-    <td></td>
+    <td>[Student Notes](notes/08_Watermarking.html)</td>
   </tr>
   <tr class="section-header">
     <td colspan="4" >Image Generation</td>

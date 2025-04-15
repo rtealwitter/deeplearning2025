@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Watermarking</title>
+<title>Watermarking LLMs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,34 +57,161 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="_watermarking_files/libs/clipboard/clipboard.min.js"></script>
-<script src="_watermarking_files/libs/quarto-html/quarto.js"></script>
-<script src="_watermarking_files/libs/quarto-html/popper.min.js"></script>
-<script src="_watermarking_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="_watermarking_files/libs/quarto-html/anchor.min.js"></script>
-<link href="_watermarking_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="_watermarking_files/libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="_watermarking_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="_watermarking_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="_watermarking_files/libs/bootstrap/bootstrap-973236bd072d72a04ee9cd82dcc9cb29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="shortcut icon" href="favicon.ico">
+<script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 
 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-GZHXTPTRRE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GZHXTPTRRE');
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="fullcontent">
+<body class="nav-fixed">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
-<main class="content" id="quarto-document-content">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Winter 2025</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://middlebury.instructure.com/courses/16004"> 
+<span class="menu-text">Canvas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://www.gradescope.com/courses/934368"> 
+<span class="menu-text">Gradescope</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prior-years" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Prior Years</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-prior-years">    
+        <li>
+    <a class="dropdown-item" href="https://www.rtealwitter.com/deeplearning2023/">
+ <span class="dropdown-text">Winter 2023</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Watermarking</h1>
+<h1 class="title">Watermarking LLMs</h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -96,21 +223,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p><em>Written by Lenox Herman</em></p>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
 <p>As LLMs (large language models) continue to be used and grow in modern times, the need for delineating where text originates becomes more apparent. For instance, a teacher might want to determine if a student has used an LLM to complete an assignment. On the flip side, organizations like OpenAI might need a way to verify whether a given output can genuinely be attributed to their models. In order to do this, LLMs use watermarking to determine whether a block of text was human or machine-generated.</p>
 <p>Let’s look at the example, “Turmeric lemon cookies are…” In order to calculate the next word, LLMs embed each word to create a probability distribution to determine the next word.</p>
+</section>
 <section id="redgreen-listing" class="level2">
 <h2 class="anchored" data-anchor-id="redgreen-listing">Red/Green Listing</h2>
 <p>This is a watermarking method where words are predetermined as “<span style="color:red">Red</span>” and “<span style="color:green">Green</span>” words. Here, a small constant is added to all green words before the softmax is used to calculate the probability distribution. The result is that green words are slightly more likely to be selected when generating text.</p>
 <p>To detect Red/Green watermarking on LLM-generated text, you would run a P-test. Consider the example:</p>
 <p>“<span style="color:red">Watermarking</span> <span style="color:green">is a very</span> <span style="color:red">fun</span> <span style="color:green">topic to cover</span> <span style="color:red">especially</span> <span style="color:green">when Teal is teaching it</span>.”</p>
 <p>Here we assume that the probability of green words appearing in natural text is 50/50, or 1/2.</p>
-<p>To detect Red/Green watermarking in LLM-generated text, a statistical hypothesis test can be applied. Suppose the probability of selecting a green word in natural text is 50% (i.e., ( P() = 0.5 )). We can analyze the observed frequency of green words in ( m ) trials (words in the text) to determine if the text is likely watermarked.</p>
-<p>The probability of observing exactly ( K ) green words in ( m ) trials follows a binomial distribution:</p>
+<p>To detect Red/Green watermarking in LLM-generated text, a statistical hypothesis test can be applied. Suppose the probability of selecting a green word in natural text is 50% (i.e., <span class="math inline">\(P(\text{Green}) = 0.5\)</span>). We can analyze the observed frequency of green words in <span class="math inline">\(m\)</span> trials (words in the text) to determine if the text is likely watermarked.</p>
+<p>The probability of observing exactly <span class="math inline">\(K\)</span> green words in <span class="math inline">\(m\)</span> trials follows a binomial distribution:</p>
 <p>P (k success in m trials) = [ (Pr())^K (1 - Pr())^{m-K}, ]</p>
-<p>where ( m ) ( K ) is the binomial coefficient.</p>
+<p>where <span class="math inline">\(m\)</span> <span class="math inline">\(K\)</span> is the binomial coefficient.</p>
 <p>By comparing the observed frequency of green words to the expected frequency under the null hypothesis (50/50 distribution), we can infer whether the text is watermarked.</p>
 <p>The full summation form of this probability is: P (k success in m trials) = [ _{l=k}^m p^l (1 - p)^{m-l} ]</p>
-<p>where ( p ) is the probability of success (e.g., selecting a green word).</p>
+<p>where <span class="math inline">\(p\)</span> is the probability of success (e.g., selecting a green word).</p>
 <p>Modifying the probability distribution in watermarking slightly affects the output quality. Selecting a word that is not the highest probability increases the risk of hallucinations since LLMs are auto-generative and build text sequentially.</p>
 <p>Additionally, if someone gains access to the model, they could potentially reverse-engineer the watermarking process by distinguishing red words from green words. For example, the word “delve” could be identified as a green word generated by ChatGPT, providing evidence of watermarking being used.</p>
 </section>
@@ -133,10 +264,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="exponential-minimum-sampling" class="level2">
 <h2 class="anchored" data-anchor-id="exponential-minimum-sampling">Exponential Minimum Sampling</h2>
-<p>Exponential Minimum Sampling addresses the core challenges of watermarking: it does not require access to the prompt and avoids altering the probability distribution. Here, a pseudo-random vector ( X ) is generated using a seed derived from a sliding window of the given text. This ( X ) vector has continuous values between 0 and 1, with a length equal to the dimensionality of the vocabulary, ( |v| ).</p>
+<p>Exponential Minimum Sampling addresses the core challenges of watermarking: it does not require access to the prompt and avoids altering the probability distribution. Here, a pseudo-random vector <span class="math inline">\(X\)</span> is generated using a seed derived from a sliding window of the given text. This <span class="math inline">\(X\)</span> vector has continuous values between 0 and 1, with a length equal to the dimensionality of the vocabulary, <span class="math inline">\(|v|\)</span>.</p>
 <p>The next token is selected based on minimizing the cost function:</p>
-<p>[ = -, ]</p>
-<p>where ( x_i ) are entries from the ( X ) vector. This method ensures that the probability of selecting a specific token ( i^* ) corresponds directly to its true likelihood ( P(i^*) ) in the original probability distribution.</p>
+<p><span class="math inline">\(\text{Cost} = -\frac{\log(x_i)}{\text{len(token\_ids)}},\)</span></p>
+<p>where <span class="math inline">\(x_i\)</span> are entries from the <span class="math inline">\(X\)</span> vector. This method ensures that the probability of selecting a specific token <span class="math inline">\(i^*\)</span> corresponds directly to its true likelihood <span class="math inline">\(P(i^*)\)</span> in the original probability distribution.</p>
 <section id="pseudo-code-for-detection" class="level3">
 <h3 class="anchored" data-anchor-id="pseudo-code-for-detection">Pseudo-code for Detection:</h3>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cost <span class="op">=</span> <span class="dv">0</span></span>
@@ -145,21 +276,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    x_vector <span class="op">=</span> generate_x_vector(seed)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    cost <span class="op">+=</span> <span class="op">-</span>log(x_vector[token_id]) <span class="op">/</span> <span class="bu">len</span>(token_ids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The probability of selecting the next word can be expressed as:</p>
-<p>[ = _i , ] where (x (0, 1)^|v|).</p>
+<p><span class="math inline">\(\text{next} = \arg\min_i \frac{-\log x_i}{p_i},\)</span> where <span class="math inline">\(x \sim \text{Uniform}(0, 1)^|v|\)</span>.</p>
 <p>Additionally we know the probobility of selecting the next word, i<em>, is just P(i</em>) because:</p>
-<p>[ P(- t) = P(x_i e^{-p_i t}) = e^{-p_i t}. ]</p>
-<p>Thus, the probability density of (-) is: [ P(- = u) = p_i e^{-p_i u}. ]</p>
-<p>The cumulative probability of the selected word being (<em>i ) is: [ P(i^* = <em>i ) = </em>{u=t}^P(- = u) </em>{j i} P(- &gt; t) , du. ]</p>
-<p>Simplifying further: [ P(i^* = <em>i ) = p_i </em>{u=t}<sup>e</sup>{-p_i u} _{j i} e^{-p_j u} , du. ]</p>
-<p>Expanding the product term: [ P(i^* = <em>i ) = p_i </em>{u=t}<sup>e</sup>{-(_{j} p_j) u} , du. ]</p>
-<p>Finally, solving the integral: [ P(i^* = _i ) = p_i _t^, ]</p>
-<p>which simplifies to: [ P(i^* = _i ) = p_i. ]</p>
-<p>The seed for this process is: [ x. ]</p>
+<p><span class="math inline">\(P\left(-\frac{\log x_i}{p_i} \geq t\right) = P\left(x_i \leq e^{-p_i t}\right) = e^{-p_i t}.\)</span></p>
+<p>Thus, the probability density of <span class="math inline">\(-\frac{\log x_i}{p_i}\)</span> is: <span class="math inline">\(P\left(-\frac{\log x_i}{p_i} = u\right) = p_i \cdot e^{-p_i u}.\)</span></p>
+<p>The cumulative probability of the selected word being <span class="math inline">\(\arg\min_i \frac{-\log x_i}{p_i}\)</span> is: <span class="math inline">\(P\left(i^* = \arg\min_i \frac{-\log x_i}{p_i}\right) =
+\int_{u=t}^\infty P\left(-\frac{\log x_i}{p_i} = u\right)
+\prod_{j \neq i} P\left(-\frac{\log x_j}{p_j} &gt; t\right) \, du.\)</span></p>
+<p>Simplifying further: <span class="math inline">\(P\left(i^* = \arg\min_i \frac{-\log x_i}{p_i}\right) =
+p_i \int_{u=t}^\infty e^{-p_i u} \prod_{j \neq i} e^{-p_j u} \, du.\)</span></p>
+<p>Expanding the product term:</p>
+<p><span class="math inline">\(P\left(i^* = \arg\min_i \frac{-\log x_i}{p_i}\right) =
+p_i \int_{u=t}^\infty e^{-\left(\sum_{j} p_j\right) u} \, du.\)</span></p>
+<p>Finally, solving the integral:</p>
+<p><span class="math inline">\(P\left(i^* = \arg\min_i \frac{-\log x_i}{p_i}\right) =
+p_i \cdot \left[-\frac{1}{\sum_{j} p_j} e^{-\left(\sum_{j} p_j\right) u}\right]_t^\infty,\)</span></p>
+<p>which simplifies to:</p>
+<p><span class="math inline">\(P\left(i^* = \arg\min_i \frac{-\log x_i}{p_i}\right) = p_i.\)</span></p>
+<p>The seed for this process is <span class="math inline">\(x\)</span>.</p>
+
+
 </section>
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -242,6 +382,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -352,6 +494,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
