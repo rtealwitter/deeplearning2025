@@ -135,7 +135,7 @@ Deep learning from theoretical foundations to state-of-the-art applications.
     <td>Wednesday 1/22</td>
     <td>Diffusion</td>
     <td>[Slides](slides/10_diffusion.pdf)</td>
-    <td></td>
+    <td>[Student Notes](notes/10_Diffusion.html)</td>
   </tr>
   <tr>
     <td>Thursday 1/23</td>

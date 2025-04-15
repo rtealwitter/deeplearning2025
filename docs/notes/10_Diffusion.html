@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>CSCI 1051: Deep Learning</title>
+<title>Generative Adverserial Networks and Diffusion</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,23 +23,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./favicon.ico" rel="icon">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,8 +82,37 @@ ul.task-list li input[type="checkbox"] {
   gtag('config', 'G-GZHXTPTRRE');
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -93,7 +122,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Winter 2025</span>
     </a>
   </div>
@@ -112,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Gradescope</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./syllabus.html"> 
+    <a class="nav-link" href="../syllabus.html"> 
 <span class="menu-text">Syllabus</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -137,18 +166,36 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#generative-adversarial-networks-gans" id="toc-generative-adversarial-networks-gans" class="nav-link" data-scroll-target="#generative-adversarial-networks-gans">Generative Adversarial Networks (GANs)</a>
+  <ul class="collapse">
+  <li><a href="#loss-functions" id="toc-loss-functions" class="nav-link" data-scroll-target="#loss-functions">Loss functions</a></li>
+  <li><a href="#training-gans" id="toc-training-gans" class="nav-link" data-scroll-target="#training-gans">Training GANs</a></li>
+  </ul></li>
+  <li><a href="#diffusion" id="toc-diffusion" class="nav-link" data-scroll-target="#diffusion">Diffusion</a>
+  <ul class="collapse">
+  <li><a href="#training-with-diffusion" id="toc-training-with-diffusion" class="nav-link" data-scroll-target="#training-with-diffusion">Training with Diffusion</a></li>
+  <li><a href="#evaluating-diffusion-models" id="toc-evaluating-diffusion-models" class="nav-link" data-scroll-target="#evaluating-diffusion-models">Evaluating Diffusion Models</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><strong>CSCI 1051: Deep Learning</strong></h1>
+<h1 class="title"><strong>Generative Adverserial Networks and Diffusion</strong></h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -160,321 +207,94 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<center>
-Deep learning from theoretical foundations to state-of-the-art applications.
-</center>
-<p><br></p>
-<div class="row">
-<div class="col" data-markdown="1">
-<p><strong>Instructor</strong>: <a href="https://www.rtealwitter.com/">R. Teal Witter</a>. Please call me Teal.</p>
-<p><strong>Class Times</strong>: We meet Monday, Tuesday, Wednesday, and Thursday in 75 Shannon St Room 202. The lecture is from 10am to noon and the discussion is from 2 to 4pm.</p>
-<p><strong>Office Hours</strong>: I will hold office hours in 75 Shannon St Room 221 from 3 to 4pm.</p>
-<p><strong>Participation</strong>: I expect you to engage in class, ask questions, and make connections. So I can check in with you, please fill out <a href="https://forms.gle/92hyvcHtCw4m62DWA">this</a> form every lecture.</p>
-<p><strong>Scribed Notes</strong>: Notes are a great resource for augmenting your in-class learning. Since I updated the material in this course, I would like to ask for your help in writing these notes. You can find the assignment <a href="notes/assignment.pdf">here</a>.</p>
-</div>
-<div class="col" data-markdown="1">
-<p><strong>Assignments</strong>: You will receive one problem per class. I expect you to solve the problem with your group during the discussion (I’ll be there to answer questions). Once you have solved the problem, you should write up your solution on your own. In addition, there will be a project on a lecture topic of your choice.</p>
-<table style="width: 100%; border-collapse: collapse;">
-<tbody><tr>
-<td>
-Assignment
-</td>
-<td>
-Due
-</td>
-</tr>
-<tr>
-<td>
-<a href="psets/pset1.pdf">Problem Set 1</a> (<a href="psets/pset1.tex">LaTeX</a>)
-</td>
-<td>
-Friday 1/10
-</td>
-</tr>
-<tr>
-<td>
-<a href="psets/pset2.pdf">Problem Set 2</a> (<a href="psets/pset2.tex">LaTeX</a>)
-</td>
-<td>
-Friday 1/17
-</td>
-</tr>
-<tr>
-<td>
-<a href="psets/pset3.pdf">Problem Set 3</a> (<a href="psets/pset3.tex">LaTeX</a>)
-</td>
-<td>
-Friday 1/24
-</td>
-</tr>
-<tr>
-<td>
-<a href="psets/pset4.pdf">Problem Set 4</a> (<a href="psets/pset4.tex">LaTeX</a>)
-</td>
-<td>
-Wednesday 1/29
-</td>
-</tr>
-<tr>
-<td>
-<a href="project/proposal.pdf">Project Proposal</a>
-</td>
-<td>
-Sunday 1/26
-</td>
-</tr>
-<tr>
-<td>
-<a href="project/project.pdf">Project</a>
-</td>
-<td>
-Friday 1/31
-</td>
-</tr>
-</tbody></table>
-</div>
-</div>
-<table style="width: 100%; border-collapse: collapse;">
-<tbody><tr>
-<td>
-Class
-</td>
-<td>
-Topic
-</td>
-<td>
-Slides
-</td>
-<td>
-Resources
-</td>
-</tr>
-<tr class="section-header">
-<td colspan="4">
-The Three-Step Framework
-</td>
-</tr>
-<tr>
-<td>
-Monday 1/6
-</td>
-<td>
-Linear Regression and Mean Squared Error
-</td>
-<td>
-<a href="slides/01_regression.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/01_Regression.html">My Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Tuesday 1/7
-</td>
-<td>
-Logistic Regression and Cross Entropy Loss
-</td>
-<td>
-<a href="slides/02_logistic.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/02_LogisticRegAndEntropy.html">Student Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Wednesday 1/8
-</td>
-<td>
-Gradient Descent and Neural Networks
-</td>
-<td>
-<a href="slides/03_networks.pdf">Slides</a>
-</td>
-<td>
-<a href="https://chinmayhegde.github.io/dl-notes/notes/lecture02/">Chinmay’s Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Thursday 1/9
-</td>
-<td>
-Back-propagation and Optimization
-</td>
-<td>
-<a href="slides/04_optimization.pdf">Slides</a>
-</td>
-<td>
-<a href="https://chinmayhegde.github.io/dl-notes/notes/lecture03/">Chinmay’s Notes</a>
-</td>
-</tr>
-<tr class="section-header">
-<td colspan="4">
-Language Generation
-</td>
-</tr>
-<tr>
-<td>
-Monday 1/13
-</td>
-<td>
-Language Embeddings and Contrastive Learning
-</td>
-<td>
-<a href="slides/05_language.pdf">Slides</a>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Tuesday 1/14
-</td>
-<td>
-Transformers and Positional Encoding
-</td>
-<td>
-<a href="slides/06_transformers.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/06_TransformersPositionalEncoding.html">Student Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Wednesday 1/15
-</td>
-<td>
-Low Rank Approximation
-</td>
-<td>
-<a href="slides/07_lora.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/07_LowRankApprox.html">Student Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Thursday 1/16
-</td>
-<td>
-Watermarking
-</td>
-<td>
-<a href="slides/08_watermarking.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/08_Watermarking.html">Student Notes</a>
-</td>
-</tr>
-<tr class="section-header">
-<td colspan="4">
-Image Generation
-</td>
-</tr>
-<tr>
-<td>
-Tuesday 1/21
-</td>
-<td>
-Convolutional Neural Networks and Image Embeddings
-</td>
-<td>
-<a href="slides/09_image_embeddings.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/09_ConvolutionalNets.html">Student Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Wednesday 1/22
-</td>
-<td>
-Diffusion
-</td>
-<td>
-<a href="slides/10_diffusion.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/10_Diffusion.html">Student Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Thursday 1/23
-</td>
-<td>
-Schrödinger Bridges and CLIP
-</td>
-<td>
-<a href="slides/11_schroedinger.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/11_SchrodingerAndCLIP.html">Student Notes</a>
-</td>
-</tr>
-<tr class="section-header">
-<td colspan="4">
-AI Safety
-</td>
-</tr>
-<tr>
-<td>
-Monday 1/27
-</td>
-<td>
-Interpretability
-</td>
-<td>
-<a href="slides/12_interpretability.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/12_Interpretability.html">Student Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Tuesday 1/28
-</td>
-<td>
-Project Preparation
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Wednesday 1/29
-</td>
-<td>
-Project Preparation
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Thursday 1/30
-</td>
-<td>
-Project Presentations
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-</tbody></table>
+<p><em>Written by Elise Scott</em></p>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>With both diffusion and Generative Adversarial Networks, or GANs, the goal is to train a model that can generate new, realistic images from noise.</p>
+</section>
+<section id="generative-adversarial-networks-gans" class="level2">
+<h2 class="anchored" data-anchor-id="generative-adversarial-networks-gans">Generative Adversarial Networks (GANs)</h2>
+<p>Given a vector <span class="math inline">\(z \sim \mathcal{N}(0,I)\)</span>, there is some generator that is trained to generate images that are as realistic as possible from this input noise vector.</p>
+<p>Once this image is generated, it is put through a discriminator, which takes an image/ embedding as an input and outputs a 2-dimensional vector, which, after being put through the softmax, represents the probabilities of the image being real or fake/ generated such that <span class="math inline">\(\begin{bmatrix}
+\Pr(\text{real}) \\
+\Pr(\text{fake})
+\end{bmatrix}\)</span>.</p>
+<p>This discriminator is trained on a dataset of 50/50 generated and real images, which are labeled with their probabilities, <span class="math inline">\(\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}\)</span> for real images, and <span class="math inline">\(\begin{bmatrix}
+0 \\
+1
+\end{bmatrix}\)</span> for generated images.</p>
+<section id="loss-functions" class="level3">
+<h3 class="anchored" data-anchor-id="loss-functions">Loss functions</h3>
+<p>So what loss functions should we use for GANs? The first step is to break it up into <span class="math inline">\(\mathcal{L}_{\text{generator}}\)</span> and <span class="math inline">\(\mathcal{L}_{\text{discriminator}}\)</span>.</p>
+<p>For <span class="math inline">\(\mathcal{L}_{\text{generator}}\)</span>, we want to minimize the difference between the generated image and a real image, so we can use Cross Entropy Loss. Let <span class="math inline">\(G(x)\)</span> represent the function of the generator, and <span class="math inline">\(D(x)\)</span> represent the function of the discriminator. Then, for some <span class="math inline">\(z \sim \mathcal{N}(0,I)\)</span>, <span class="math inline">\(\mathcal{L}_{\text{generator}} = \text{dist}(\text{D}(\text{G}(z)), \begin{bmatrix}
+1 \\
+0
+\end{bmatrix})\)</span>.</p>
+<p>When considering the <span class="math inline">\(\mathcal{L}_{\text{discriminator}}\)</span>, there are two factors we want to minimize. The discriminator should be able to identify both generated and real images accurately, which means that we want to minimize the distance between the generator output and <span class="math inline">\(\begin{bmatrix}
+0 \\
+1
+\end{bmatrix}\)</span> as well as minimizing the distance between real images and <span class="math inline">\(\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}\)</span>. Thus, our discriminator loss should be as follows: <span class="math inline">\(\mathcal{L}_{\text{discriminator}} = \text{dist}(\text{D}(\text{G}(z)), \begin{bmatrix}
+0 \\
+1
+\end{bmatrix}) + \text{dist}(\text{D}(x), \begin{bmatrix}
+1 \\
+0
+\end{bmatrix})\)</span>.</p>
+</section>
+<section id="training-gans" class="level3">
+<h3 class="anchored" data-anchor-id="training-gans">Training GANs</h3>
+<p>During training, the generator and discriminator must be trained in tandem, otherwise there is an information loss between them and one may not have enough information to be effectively trained. For example, if the discriminator has been pretrained and we are using our loss function, the discriminator may be “too good” and always output “fake”, and the generator is unable to effectively learn which weighs within the model lead to effective output.</p>
+<p>Even when training in tandem, though, GANs have a fatal flaw. With enough training, all GANs reach a point at which they figure out how to win this system by generating only one very realistic image which corresponds to an actual image in the training data for the discriminator. We call this <em>mode collapse</em>, and it is the reason that GANs are no longer used to generate images. It is called mode collapse because the generator has collapsed to generate only one mode/ output.</p>
+</section>
+</section>
+<section id="diffusion" class="level2">
+<h2 class="anchored" data-anchor-id="diffusion">Diffusion</h2>
+<p>So, what is the answer to mode collapse? A little something called diffusion. Diffusion has the same motivation as GANs, which is to generate realistic images based off of noise. However, this is done by slowly adding (for training) and removing (for evaluation) noise from the input.</p>
+<p>Given an input, <span class="math inline">\(x_T \sim \mathcal{N}(0,I)\)</span>, the function <span class="math inline">\(f\)</span> reduces noise step by step for <span class="math inline">\(T\)</span> steps. Conversely, to create training data, the model starts with an image, <span class="math inline">\(x_0\)</span>, and adds Gaussian noise multiplied by some scalar, <span class="math inline">\(\alpha\)</span> , at each step. Therefore, given some <span class="math inline">\(t \sim \{1, ..., T\}\)</span> and <span class="math inline">\(z \sim \mathcal{N}(0,I)\)</span>, <span class="math inline">\(x_t = \sqrt{\alpha} x_{t-1} + \sqrt{1-\alpha}z\)</span>.</p>
+<p>Doing this equation many times over would take a lot of time, but with some math we can get straight from <span class="math inline">\(x_T\)</span> to <span class="math inline">\(x_0\)</span>.</p>
+<p><span class="math inline">\(\begin{align*}
+x_t &amp;= \sqrt{\alpha} \left( \sqrt{\alpha} x_{t-2} + \sqrt{1-\alpha}z' \right) + \sqrt{1-\alpha}z \\
+&amp;= \sqrt{\alpha} \left( \sqrt{\alpha} \left( \sqrt{\alpha} x_{t-3} + \sqrt{1-\alpha} z'' \right) + \sqrt{1-\alpha} z' \right) + \sqrt{1-\alpha} z\\
+&amp;= \sqrt{\alpha^t} X_0 + \sum_{\ell=0}^{t-1} \sqrt{1-\alpha} \sqrt{\alpha^\ell} z\\
+&amp;= \sqrt{\alpha^t} X_0 + \sqrt{1-\alpha^t} z
+\end{align*}\)</span></p>
+<p>We are able to simplify the sum above using the geometric series rule, where</p>
+<p><span class="math inline">\(\begin{align*}
+\sum_{\ell=0}^{t-1} \sqrt{1-\alpha} \sqrt{\alpha^\ell} &amp;= \sum_{\ell=0}^{t-1} (1-\alpha) \alpha^\ell \\
+&amp;= (1-\alpha)*\frac{(1-\alpha^t)}{(1-\alpha)} \\
+&amp;= (1 - \alpha^t)
+\end{align*}\)</span></p>
+<section id="training-with-diffusion" class="level3">
+<h3 class="anchored" data-anchor-id="training-with-diffusion">Training with Diffusion</h3>
+<p>For training, we want to remove noise, going from <span class="math inline">\(x_0\)</span> to <span class="math inline">\(x_T\)</span>. Therefore, we will follow these steps: <span class="math display">\[\begin{align*}
+    &amp;\text{sample } z \sim \mathcal{N}(0, I) \\
+    &amp;\text{sample } t \sim \text{unif}(\{1, \ldots, T\}) \\
+    &amp;x_t = \sqrt{\alpha^t} x_0 + \sqrt{1 - \alpha^t} z \\
+    &amp;\mathcal{L}_f = \| f(x_t, t) - z \|_2^2
+\end{align*}\]</span></p>
+</section>
+<section id="evaluating-diffusion-models" class="level3">
+<h3 class="anchored" data-anchor-id="evaluating-diffusion-models">Evaluating Diffusion Models</h3>
+<p>For evalutation, we are trying to get back to <span class="math inline">\(x_T\)</span> from <span class="math inline">\(x_0\)</span>. However, since we are sampling from a Gaussian distribution for <span class="math inline">\(x_T\)</span>, we need to account for the case in which <span class="math inline">\(x_T\)</span> is not actually a normal distribution. Therefore, we will go back and forth between <span class="math inline">\(x_T\)</span> and <span class="math inline">\(x_0\)</span>, making multiple passes back through the model.</p>
+<p><span class="math display">\[\begin{align*}
+    &amp;x_T \sim \mathcal{N}(0, I) \\
+    &amp;\text{for } t \in \{1, \ldots, T\}: \\
+    &amp;\quad z_{\text{pred}} = f(x_t, t) \\
+    &amp;\quad x_0 = \frac{x_T - \sqrt{1 - \alpha^t} z_{\text{pred}}}{\sqrt{\alpha^t}} \\
+    &amp;\quad z \sim \mathcal{N}(0, I) \\
+    &amp;\quad x_t = \sqrt{\alpha^t} x_0 + \sqrt{1 - \alpha^t} z
+\end{align*}\]</span></p>
 
 
+
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

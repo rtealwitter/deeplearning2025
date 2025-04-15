@@ -6,6 +6,8 @@ format:
     math: true
 ---
 
+*Written by Elise Scott*
+
 ## Motivation
 
 With both diffusion and Generative Adversarial Networks, or GANs, the goal is to train a model that can generate new, realistic images from noise.
