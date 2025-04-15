@@ -6,7 +6,7 @@ format:
     math: true
 ---
 
-## Convolution
+*Written by Jayda Gilyard and Josef Liem*
 
 ### Motivation
 
@@ -14,7 +14,7 @@ In class, we have already covered some useful kinds of layers that we can includ
 
 *Why should we care about convolution when we already saw that we can perform classification using a sequence of linear layers and activations?*
 
-<center><img src="images\FullyConnectedLayer.png" width="700"></center>
+<center><img src="images/FullyConnectedLayer.png" width="700"></center>
 
 If we are interested in working with large input vectors, this will involve massive matrix multiplication with time complexity $\theta(dd')$ where $d$ denotes the size of the input vector, an $d'$ the output vector. In 2D, this is particularly problematic if we wanted to build an image classifier for, say, 1024x1024 images, as we would be performing many large matrix multiplications. Thus, given that a model may consist of many linear layers, the number of trainable parameters in the model becomes far too expensive to handle at scale.
 
@@ -22,7 +22,7 @@ If we are interested in working with large input vectors, this will involve mass
 
 Instead, we can take advantage of the notion of *shared weights* in convolution through a *kernel* (also called a *filter*), to be far more efficient. Let us first take a look at the 1-dimensional case for convolution.
 
-<center><img src="images\1DConvolution.png" width="700"></center>
+<center><img src="images/1DConvolution.png" width="700"></center>
 
 In our convolutional layer, our *kernel* is composed of a set of learnable weights for which we take the inner product with entries of the input vector, summing over it. We then slide this kernel over by a certain *stride* to generate the next scalar entry in the output vector. 
 
@@ -42,7 +42,7 @@ There are several major advantages to using convolution:
 
 When we are performing convolution in machine learning, we are usually talking about 2-D convolution on images. Here, rather than a vector, our kernel now takes the form of a $w' * w'$ matrix $W$ which we slide over the $d * d$ input, taking the summation over the inner product of weights and entries, producing a $d' * d'$ output.
 
-<center><img src="images\2DConvolution.png" width="700"></center>
+<center><img src="images/2DConvolution.png" width="700"></center>
 
 We only need to make some slight adjustments to the previous definition of 1-dimensional discrete convolution to reach 2-dimensions:
 
@@ -56,19 +56,19 @@ Note that the resulting shape of the output of convolution heavily depends on th
 
 1. ***Stride***
 
-<center><img src="images\StridedConvolution.png" width="700"></center>
+<center><img src="images/StridedConvolution.png" width="700"></center>
 
 We can set our *stride* to be some value $s$, such that our kernel will move by $s$ entries when taking the summation over the inner product of input/kernel entries and weights. Increasingly large strides in convolution reduce the size of the spatial dimensions of the output.
 
 2. ***Padding***
 
-<center><img src="images\PaddedConvolution.png" width="700"></center>
+<center><img src="images/PaddedConvolution.png" width="700"></center>
 
 We can apply padding (usually a bunch of 0s) around our input $x$. Adding padding will change the number of strides we might take in the given row height/column height, affecting the shape of our output. 
 
 3. ***Dilation***
 
-<center><img src="images\DilatedConvolution.png" width="700"></center>
+<center><img src="images/DilatedConvolution.png" width="700"></center>
 
 Dilation is another technique that can be applied to convolutional layers to expand the *receptive field* of the kernel without increasing the number of parameters. 
 
@@ -88,7 +88,7 @@ As our previous illustrations have implicitly shown, we often talk about convolu
 
 ### Autoencoders
 
-<center><img src="images\Autoencoder.png" width="700"></center>
+<center><img src="images/Autoencoder.png" width="700"></center>
 
 For embeddings over images, we can use an *autoencoder*, which consists of an *encoder* and a *decoder*. The encoder applies a set of *kernels* through several convolutional layers to generate a latent vector $z$ — a compressed representation of our image. Subsequent *transposed convolutions* in the *decoder* layers can reconstruct an output image.
 
@@ -98,7 +98,7 @@ $$L(w)=||g(f(x))-x||^2_2$$
 
 ### Contrastive Learning
 
-<center><img src="images\ContrastiveLearning.png" width="700"></center>
+<center><img src="images/ContrastiveLearning.png" width="700"></center>
 
 We have also seen an alternative approach - *contrastive learning*, that would allow us to perform initial training without the *decoder*. In this approach, we take positive pairs $(x, x^+)$ and negative pairs $(x, x^-)$ of images. The goal of contrastive learning is to have positive pairs end up close together in *latent space* and negative pairs far apart. Equivalently:
 
@@ -114,11 +114,11 @@ We have also seen an alternative approach - *contrastive learning*, that would a
 
 While autoencoders are a nice approach, notice that unlike contrastive learning where we try to separate negative pairs, nothing about the autoencoder forces even spacing in the latent space, allowing for potential collisions between instances of differing classes of images. 
 
-<center><img src="images\AutoencoderCollisions.png" width="400"></center>
+<center><img src="images/AutoencoderCollisions.png" width="400"></center>
 
 Variational autoencoders (VAEs) solve this problem probabilistically by introducing a probabilistic encoder and decoder. Instead of mapping an input to a single point in the latent space, the encoder maps the input to a distribution over the latent space. The decoder then samples from this distribution to reconstruct the input.
 
-<center><img src="images\VariationalAutoencoder.png" width="700"></center>
+<center><img src="images/VariationalAutoencoder.png" width="700"></center>
 
 The encoder outputs the mean $\mu$ and standard deviation $\sigma$ of the latent distribution, and we sample a latent vector $z\sim\mathcal{N}(\mu, \text{diag}(\sigma^2))$ from this distribution using:
 

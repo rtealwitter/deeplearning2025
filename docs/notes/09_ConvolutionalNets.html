@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>CSCI 1051: Deep Learning</title>
+<title>Convolutional Neural Networks and Image Embeddings</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,23 +23,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./favicon.ico" rel="icon">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,8 +82,37 @@ ul.task-list li input[type="checkbox"] {
   gtag('config', 'G-GZHXTPTRRE');
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -93,7 +122,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Winter 2025</span>
     </a>
   </div>
@@ -112,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Gradescope</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./syllabus.html"> 
+    <a class="nav-link" href="../syllabus.html"> 
 <span class="menu-text">Syllabus</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -137,18 +166,36 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#enter-convolution" id="toc-enter-convolution" class="nav-link" data-scroll-target="#enter-convolution">Enter Convolution…</a></li>
+  <li><a href="#convolution-in-2-dimensions" id="toc-convolution-in-2-dimensions" class="nav-link" data-scroll-target="#convolution-in-2-dimensions">Convolution in 2 Dimensions</a></li>
+  <li><a href="#kernels-features-and-more" id="toc-kernels-features-and-more" class="nav-link" data-scroll-target="#kernels-features-and-more">Kernels, Features, and More…</a></li>
+  <li><a href="#upsampling" id="toc-upsampling" class="nav-link" data-scroll-target="#upsampling">Upsampling</a></li>
+  <li><a href="#embeddings" id="toc-embeddings" class="nav-link" data-scroll-target="#embeddings">Embeddings</a>
+  <ul class="collapse">
+  <li><a href="#autoencoders" id="toc-autoencoders" class="nav-link" data-scroll-target="#autoencoders">Autoencoders</a></li>
+  <li><a href="#contrastive-learning" id="toc-contrastive-learning" class="nav-link" data-scroll-target="#contrastive-learning">Contrastive Learning</a></li>
+  <li><a href="#variational-autoencoders" id="toc-variational-autoencoders" class="nav-link" data-scroll-target="#variational-autoencoders">Variational Autoencoders</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><strong>CSCI 1051: Deep Learning</strong></h1>
+<h1 class="title"><strong>Convolutional Neural Networks and Image Embeddings</strong></h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -160,319 +207,130 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p><em>Written by Jayda Gilyard and Josef Liem</em></p>
+<section id="motivation" class="level3">
+<h3 class="anchored" data-anchor-id="motivation">Motivation</h3>
+<p>In class, we have already covered some useful kinds of layers that we can include in our model: fully connected layers (FCLs), attention layers, activation layers (Sigmoid, Softmax, ReLU, etc…). Today, we will talk about new kind of layer that can be used called <em>convolution</em>.</p>
+<p><em>Why should we care about convolution when we already saw that we can perform classification using a sequence of linear layers and activations?</em></p>
 <center>
-Deep learning from theoretical foundations to state-of-the-art applications.
+<img src="images/FullyConnectedLayer.png" width="700">
 </center>
-<p><br></p>
-<div class="row">
-<div class="col" data-markdown="1">
-<p><strong>Instructor</strong>: <a href="https://www.rtealwitter.com/">R. Teal Witter</a>. Please call me Teal.</p>
-<p><strong>Class Times</strong>: We meet Monday, Tuesday, Wednesday, and Thursday in 75 Shannon St Room 202. The lecture is from 10am to noon and the discussion is from 2 to 4pm.</p>
-<p><strong>Office Hours</strong>: I will hold office hours in 75 Shannon St Room 221 from 3 to 4pm.</p>
-<p><strong>Participation</strong>: I expect you to engage in class, ask questions, and make connections. So I can check in with you, please fill out <a href="https://forms.gle/92hyvcHtCw4m62DWA">this</a> form every lecture.</p>
-<p><strong>Scribed Notes</strong>: Notes are a great resource for augmenting your in-class learning. Since I updated the material in this course, I would like to ask for your help in writing these notes. You can find the assignment <a href="notes/assignment.pdf">here</a>.</p>
-</div>
-<div class="col" data-markdown="1">
-<p><strong>Assignments</strong>: You will receive one problem per class. I expect you to solve the problem with your group during the discussion (I’ll be there to answer questions). Once you have solved the problem, you should write up your solution on your own. In addition, there will be a project on a lecture topic of your choice.</p>
-<table style="width: 100%; border-collapse: collapse;">
-<tbody><tr>
-<td>
-Assignment
-</td>
-<td>
-Due
-</td>
-</tr>
-<tr>
-<td>
-<a href="psets/pset1.pdf">Problem Set 1</a> (<a href="psets/pset1.tex">LaTeX</a>)
-</td>
-<td>
-Friday 1/10
-</td>
-</tr>
-<tr>
-<td>
-<a href="psets/pset2.pdf">Problem Set 2</a> (<a href="psets/pset2.tex">LaTeX</a>)
-</td>
-<td>
-Friday 1/17
-</td>
-</tr>
-<tr>
-<td>
-<a href="psets/pset3.pdf">Problem Set 3</a> (<a href="psets/pset3.tex">LaTeX</a>)
-</td>
-<td>
-Friday 1/24
-</td>
-</tr>
-<tr>
-<td>
-<a href="psets/pset4.pdf">Problem Set 4</a> (<a href="psets/pset4.tex">LaTeX</a>)
-</td>
-<td>
-Wednesday 1/29
-</td>
-</tr>
-<tr>
-<td>
-<a href="project/proposal.pdf">Project Proposal</a>
-</td>
-<td>
-Sunday 1/26
-</td>
-</tr>
-<tr>
-<td>
-<a href="project/project.pdf">Project</a>
-</td>
-<td>
-Friday 1/31
-</td>
-</tr>
-</tbody></table>
-</div>
-</div>
-<table style="width: 100%; border-collapse: collapse;">
-<tbody><tr>
-<td>
-Class
-</td>
-<td>
-Topic
-</td>
-<td>
-Slides
-</td>
-<td>
-Resources
-</td>
-</tr>
-<tr class="section-header">
-<td colspan="4">
-The Three-Step Framework
-</td>
-</tr>
-<tr>
-<td>
-Monday 1/6
-</td>
-<td>
-Linear Regression and Mean Squared Error
-</td>
-<td>
-<a href="slides/01_regression.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/01_Regression.html">My Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Tuesday 1/7
-</td>
-<td>
-Logistic Regression and Cross Entropy Loss
-</td>
-<td>
-<a href="slides/02_logistic.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/02_LogisticRegAndEntropy.html">Student Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Wednesday 1/8
-</td>
-<td>
-Gradient Descent and Neural Networks
-</td>
-<td>
-<a href="slides/03_networks.pdf">Slides</a>
-</td>
-<td>
-<a href="https://chinmayhegde.github.io/dl-notes/notes/lecture02/">Chinmay’s Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Thursday 1/9
-</td>
-<td>
-Back-propagation and Optimization
-</td>
-<td>
-<a href="slides/04_optimization.pdf">Slides</a>
-</td>
-<td>
-<a href="https://chinmayhegde.github.io/dl-notes/notes/lecture03/">Chinmay’s Notes</a>
-</td>
-</tr>
-<tr class="section-header">
-<td colspan="4">
-Language Generation
-</td>
-</tr>
-<tr>
-<td>
-Monday 1/13
-</td>
-<td>
-Language Embeddings and Contrastive Learning
-</td>
-<td>
-<a href="slides/05_language.pdf">Slides</a>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Tuesday 1/14
-</td>
-<td>
-Transformers and Positional Encoding
-</td>
-<td>
-<a href="slides/06_transformers.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/06_TransformersPositionalEncoding.html">Student Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Wednesday 1/15
-</td>
-<td>
-Low Rank Approximation
-</td>
-<td>
-<a href="slides/07_lora.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/07_LowRankApprox.html">Student Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Thursday 1/16
-</td>
-<td>
-Watermarking
-</td>
-<td>
-<a href="slides/08_watermarking.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/08_Watermarking.html">Student Notes</a>
-</td>
-</tr>
-<tr class="section-header">
-<td colspan="4">
-Image Generation
-</td>
-</tr>
-<tr>
-<td>
-Tuesday 1/21
-</td>
-<td>
-Convolutional Neural Networks and Image Embeddings
-</td>
-<td>
-<a href="slides/09_image_embeddings.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/09_ConvolutionalNets.html">Student Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Wednesday 1/22
-</td>
-<td>
-Diffusion
-</td>
-<td>
-<a href="slides/10_diffusion.pdf">Slides</a>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Thursday 1/23
-</td>
-<td>
-Schrödinger Bridges and CLIP
-</td>
-<td>
-<a href="slides/11_schroedinger.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/11_SchrodingerAndCLIP.html">Student Notes</a>
-</td>
-</tr>
-<tr class="section-header">
-<td colspan="4">
-AI Safety
-</td>
-</tr>
-<tr>
-<td>
-Monday 1/27
-</td>
-<td>
-Interpretability
-</td>
-<td>
-<a href="slides/12_interpretability.pdf">Slides</a>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Tuesday 1/28
-</td>
-<td>
-Project Preparation
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Wednesday 1/29
-</td>
-<td>
-Project Preparation
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Thursday 1/30
-</td>
-<td>
-Project Presentations
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-</tbody></table>
+<p>If we are interested in working with large input vectors, this will involve massive matrix multiplication with time complexity <span class="math inline">\(\theta(dd')\)</span> where <span class="math inline">\(d\)</span> denotes the size of the input vector, an <span class="math inline">\(d'\)</span> the output vector. In 2D, this is particularly problematic if we wanted to build an image classifier for, say, 1024x1024 images, as we would be performing many large matrix multiplications. Thus, given that a model may consist of many linear layers, the number of trainable parameters in the model becomes far too expensive to handle at scale.</p>
+</section>
+<section id="enter-convolution" class="level3">
+<h3 class="anchored" data-anchor-id="enter-convolution">Enter Convolution…</h3>
+<p>Instead, we can take advantage of the notion of <em>shared weights</em> in convolution through a <em>kernel</em> (also called a <em>filter</em>), to be far more efficient. Let us first take a look at the 1-dimensional case for convolution.</p>
+<center>
+<img src="images/1DConvolution.png" width="700">
+</center>
+<p>In our convolutional layer, our <em>kernel</em> is composed of a set of learnable weights for which we take the inner product with entries of the input vector, summing over it. We then slide this kernel over by a certain <em>stride</em> to generate the next scalar entry in the output vector.</p>
+<p>More formally, where <span class="math inline">\(y\)</span>, is the result of a summation over the inner products of the input <span class="math inline">\(x\)</span> and weights <span class="math inline">\(w\)</span> of the kernel, we can express 1-dimensional convolution as:</p>
+<p><span class="math display">\[y[n]=\sum_{i}x[i] ⋅ w[n-i]\]</span></p>
+<p>In this new kind of layer, the weights in the kernel are shared with the entirety of the entries of the input, rather than defining a weight for each input/output pair, giving us complexity <span class="math inline">\(\theta(w) + \theta(d'w)\)</span>.</p>
+<p>There are several major advantages to using convolution:</p>
+<ol type="1">
+<li>We can use shared weights rather than having weights for each input/output entry pair.</li>
+<li>We can be remarkably more efficient by not performing massive matrix multiplications.</li>
+<li>We can take advantage of spatial locality in the input, which can be good when our data consists of sequential information. That is, in almost all images (with the exception of noise perhaps), nearby pixels are more likely to be related to each other than pixels that are far apart.</li>
+</ol>
+</section>
+<section id="convolution-in-2-dimensions" class="level3">
+<h3 class="anchored" data-anchor-id="convolution-in-2-dimensions">Convolution in 2 Dimensions</h3>
+<p>When we are performing convolution in machine learning, we are usually talking about 2-D convolution on images. Here, rather than a vector, our kernel now takes the form of a <span class="math inline">\(w' * w'\)</span> matrix <span class="math inline">\(W\)</span> which we slide over the <span class="math inline">\(d * d\)</span> input, taking the summation over the inner product of weights and entries, producing a <span class="math inline">\(d' * d'\)</span> output.</p>
+<center>
+<img src="images/2DConvolution.png" width="700">
+</center>
+<p>We only need to make some slight adjustments to the previous definition of 1-dimensional discrete convolution to reach 2-dimensions:</p>
+<p><span class="math display">\[y[m, n]=\sum_{i}\sum_{j}x[i, j] ⋅ w[i-m, j-n]\]</span></p>
+<ul>
+<li><span class="math inline">\(x[i, j]\)</span> denotes the input at position <span class="math inline">\(i, j\)</span>.</li>
+<li><span class="math inline">\(y[m, n]\)</span> denotes the output at position <span class="math inline">\(m, n\)</span>.</li>
+<li><span class="math inline">\(w[i-m, j-n]\)</span> denotes the kernel weights with some shift over the input.</li>
+</ul>
+<p>Note that the resulting shape of the output of convolution heavily depends on the shape of of <span class="math inline">\(x\)</span>, the shape of <span class="math inline">\(w\)</span>, and thus the number of strides the kernel is able to take across the input. In addition to choosing a different kernel or input shape, there are several notable modifications during convolution that will allow us to control the <span class="math inline">\(d' * d'\)</span> shape of the output:</p>
+<ol type="1">
+<li><strong><em>Stride</em></strong></li>
+</ol>
+<center>
+<img src="images/StridedConvolution.png" width="700">
+</center>
+<p>We can set our <em>stride</em> to be some value <span class="math inline">\(s\)</span>, such that our kernel will move by <span class="math inline">\(s\)</span> entries when taking the summation over the inner product of input/kernel entries and weights. Increasingly large strides in convolution reduce the size of the spatial dimensions of the output.</p>
+<ol start="2" type="1">
+<li><strong><em>Padding</em></strong></li>
+</ol>
+<center>
+<img src="images/PaddedConvolution.png" width="700">
+</center>
+<p>We can apply padding (usually a bunch of 0s) around our input <span class="math inline">\(x\)</span>. Adding padding will change the number of strides we might take in the given row height/column height, affecting the shape of our output.</p>
+<ol start="3" type="1">
+<li><strong><em>Dilation</em></strong></li>
+</ol>
+<center>
+<img src="images/DilatedConvolution.png" width="700">
+</center>
+<p>Dilation is another technique that can be applied to convolutional layers to expand the <em>receptive field</em> of the kernel without increasing the number of parameters.</p>
+</section>
+<section id="kernels-features-and-more" class="level3">
+<h3 class="anchored" data-anchor-id="kernels-features-and-more">Kernels, Features, and More…</h3>
+<p><em>What in an image is the kernel (hopefully) picking up on?</em></p>
+<p>Ideally, in an image context, convolution is nice because kernels can pick up on features such as types of edges, corners, textures, and shapes when trying to perform classification. If we use sequences of convolutional layers, deeper layers might capture more abstract or complex features, whereas initial layers focus on more fine grained detail. Additionally, in practice, we usually apply several convolutional kernels to pick up on different kinds of features at a given layer, determining the number of <em>output channels</em> that the layer will produce. Many convolutional-based architectures will tend to increase the number of <em>channels</em> while reducing the overall <em>spatial dimensions</em> at subsequent layers.</p>
+</section>
+<section id="upsampling" class="level3">
+<h3 class="anchored" data-anchor-id="upsampling">Upsampling</h3>
+<p><em>What about upsampling?</em></p>
+<p>As our previous illustrations have implicitly shown, we often talk about convolution as downsampling the original input such that the spatial dimensions gradually decrease at each convolutional layer. However, upsampling is not only possible, but often necessary in models the use an <em>autoencoder</em>-based architecture for image generation/reconstruction (see autoencoders next section). This is called <em>transposed convolution</em> or also <em>deconvolution</em>.</p>
+</section>
+<section id="embeddings" class="level2">
+<h2 class="anchored" data-anchor-id="embeddings">Embeddings</h2>
+<section id="autoencoders" class="level3">
+<h3 class="anchored" data-anchor-id="autoencoders">Autoencoders</h3>
+<center>
+<img src="images/Autoencoder.png" width="700">
+</center>
+<p>For embeddings over images, we can use an <em>autoencoder</em>, which consists of an <em>encoder</em> and a <em>decoder</em>. The encoder applies a set of <em>kernels</em> through several convolutional layers to generate a latent vector <span class="math inline">\(z\)</span> — a compressed representation of our image. Subsequent <em>transposed convolutions</em> in the <em>decoder</em> layers can reconstruct an output image.</p>
+<p>For the loss, instead of <em>cross entropy</em>, we can use <em>mean-squared error</em>, performed pixel-wise to look at “distance” between images:</p>
+<p><span class="math display">\[L(w)=||g(f(x))-x||^2_2\]</span></p>
+</section>
+<section id="contrastive-learning" class="level3">
+<h3 class="anchored" data-anchor-id="contrastive-learning">Contrastive Learning</h3>
+<center>
+<img src="images/ContrastiveLearning.png" width="700">
+</center>
+<p>We have also seen an alternative approach - <em>contrastive learning</em>, that would allow us to perform initial training without the <em>decoder</em>. In this approach, we take positive pairs <span class="math inline">\((x, x^+)\)</span> and negative pairs <span class="math inline">\((x, x^-)\)</span> of images. The goal of contrastive learning is to have positive pairs end up close together in <em>latent space</em> and negative pairs far apart. Equivalently:</p>
+<ol type="1">
+<li>The inner product of <span class="math inline">\(f(x)^Tf(x^+)\)</span> should be large</li>
+<li>The inner product of <span class="math inline">\(f(x)^Tf(x^-)\)</span> should be small</li>
+</ol>
+<p><em>How do we sample positive and negative pairs of images?</em></p>
+<ol type="1">
+<li>Someone manually labelled positive and negative pairs of images (supervised)</li>
+<li>We perform croppings on a given image and sample croppings of the same larger image are considered positive pairs, and unrelated croppings are negative</li>
+</ol>
+</section>
+<section id="variational-autoencoders" class="level3">
+<h3 class="anchored" data-anchor-id="variational-autoencoders">Variational Autoencoders</h3>
+<p>While autoencoders are a nice approach, notice that unlike contrastive learning where we try to separate negative pairs, nothing about the autoencoder forces even spacing in the latent space, allowing for potential collisions between instances of differing classes of images.</p>
+<center>
+<img src="images/AutoencoderCollisions.png" width="400">
+</center>
+<p>Variational autoencoders (VAEs) solve this problem probabilistically by introducing a probabilistic encoder and decoder. Instead of mapping an input to a single point in the latent space, the encoder maps the input to a distribution over the latent space. The decoder then samples from this distribution to reconstruct the input.</p>
+<center>
+<img src="images/VariationalAutoencoder.png" width="700">
+</center>
+<p>The encoder outputs the mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span> of the latent distribution, and we sample a latent vector <span class="math inline">\(z\sim\mathcal{N}(\mu, \text{diag}(\sigma^2))\)</span> from this distribution using:</p>
+<p><span class="math display">\[z = \mu + \sigma \epsilon\]</span></p>
+<p>where <span class="math inline">\(\epsilon\)</span> is sampled from a Gaussian distribution <span class="math inline">\(\epsilon\sim\mathcal{N}(0, I)\)</span>.</p>
+<p>The loss function for VAEs consists of two parts:</p>
+<ol type="1">
+<li>Reconstruction loss: <span class="math inline">\(L_{\text{reconstruction}}=||g(f(x))-x||^2_2\)</span>. This measures how well the decoder reconstructs the input from the latent vector.</li>
+<li>KL divergence: <span class="math inline">\(L_{\text{variational}}=\text{dist}(\mathcal{N}(0, I), \mathcal{N}(\mu, \text{diag}(\sigma^2)))\)</span>. This measures how close the learned latent distribution is to the normal distribution.</li>
+</ol>
+<p>Thus, the reconstruction is both meaningful and the latent space is evenly distributed.</p>
 
 
+
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

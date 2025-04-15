@@ -129,7 +129,7 @@ Deep learning from theoretical foundations to state-of-the-art applications.
     <td>Tuesday 1/21</td>
     <td>Convolutional Neural Networks and Image Embeddings</td>
     <td>[Slides](slides/09_image_embeddings.pdf)</td>
-    <td></td>
+    <td>[Student Notes](notes/09_ConvolutionalNets.html)</td>
   </tr>
   <tr>
     <td>Wednesday 1/22</td>
