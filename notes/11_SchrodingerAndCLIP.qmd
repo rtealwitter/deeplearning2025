@@ -6,10 +6,12 @@ format:
     math: true
 ---
 
+*Written by Shingo Kodama and Ines Kevine*
+
 ### Simple Diffusion
 
-Yesterday, we learned about a model that can generate new images: diffusion! 
-Our motivation was to generate new data (for example, images) from $Pdata$, the probability distribution that we sample $x_0$ from. 
+Last time, we learned about a model that can generate new images: diffusion! 
+Our motivation was to generate new data (for example, images) from $P_{\textnormal{data}}$, the probability distribution that we sample $x_0$ from. 
 We derived a closed form for generating $x_t$ using only $x_0$:
 $$
 x_t = \sqrt{\alpha^{t}} \cdot x_0 + \sqrt{1 - \alpha^{t}} \cdot z , \quad\quad \text{where } z \sim \mathcal{N}(0,I)
@@ -30,7 +32,7 @@ So what would our training and evaluation steps look like in this scenario?
 For the training phase, we would do: 
 $$
 \begin{array}{l}
-x_0 \sim Pdata \\
+x_0 \sim P_{\textnormal{data}} \\
 \text{for } t \text{ in } \{0,...,T-1\}:\\
 \quad\quad z \sim \mathcal{N}(0,I)\\
 \quad\quad x_{t+1} = x_t + \gamma z\\
@@ -53,8 +55,8 @@ The for loop in the evaluation phase is just one transition from $x_T$ to $x_0$.
 ### Schrödinger Bridges
 
 Now let's move on to a more complex model. 
-Before (in the two diffusion models that we've seen so far), we wanted to transition between $\mathcal{N}(0,I)$ and $Pdata$, so that we could generate new images starting from a normal distribution. 
-Now, we want to move from one probability distribution $Pdata$ to another probability distribution $Pdata^{\prime}$! 
+Before (in the two diffusion models that we've seen so far), we wanted to transition between $\mathcal{N}(0,I)$ and $P_{\textnormal{data}}$, so that we could generate new images starting from a normal distribution. 
+Now, we want to move from one probability distribution $P_{\textnormal{data}}$ to another probability distribution $P_{\textnormal{data}}^{\prime}$! 
 
 Why would this be helpful? 
 Let's imagine a situation where we had an image of day-light cityscape. 
@@ -63,7 +65,7 @@ Here are some examples of ways that this model would be helpful:
 
 
 \begin{array}{c@{\hspace{8pt}\leftrightarrow\hspace{8pt}}c@{\hspace{8pt}}c}
-    \mathbf{Pdata^{\prime}} & \mathbf{Pdata} & \text{Explanation}\\
+    \mathbf{P_{\textnormal{data}}^{\prime}} & \mathbf{P_{\textnormal{data}}} & \text{Explanation}\\
     \hline
     \text{day} & \text{night} & \text{turning a day scene into a night scene}\\
     \text{blurry} & \text{clear} & \text{turning a blurry image into a clear one}\\
@@ -71,16 +73,16 @@ Here are some examples of ways that this model would be helpful:
     \text{cat} & \text{dog} & \text{morphing a cat into a dog with similar features}\\
 \end{array}
 
-So now our motivation is: Given $x_0 \sim Pdata$, find a "close" $x_T \sim Pdata^{\prime}$!
+So now our motivation is: Given $x_0 \sim P_{\textnormal{data}}$, find a "close" $x_T \sim P_{\textnormal{data}}^{\prime}$!
 
 <center><img src="images/OptimalTransport.pdf" width="700"></center>
 
-We want to move all the points (more exactly, the probability distribution) from $Pdata$ to $Pdata^{\prime}$ in an $\textit{optimal}$ way. 
+We want to move all the points (more exactly, the probability distribution) from $P_{\textnormal{data}}$ to $P_{\textnormal{data}}^{\prime}$ in an $\textit{optimal}$ way. 
 What does it mean to be optimal? 
 We want to transform one distribution to another with the least amount of total work. 
 We call this "optimal transport".
 
-The Schrödinger Bridge model attempts to find this optimal transport between $Pdata$ and $Pdata^{\prime}$. 
+The Schrödinger Bridge model attempts to find this optimal transport between $P_{\textnormal{data}}$ and $P_{\textnormal{data}}^{\prime}$. 
 How do we do this?
 
 <center><img src="images/Schrodinger.pdf" width="700"></center>
@@ -89,7 +91,7 @@ First, let's take a look at the backward phase (going from $x_0$ to $x_T$).
 Instead of just adding noise with a normal distribution, we now want to have a function $b$ that steps from $x_{t-1}$ to $x_t$ for each $t$ between $1$ and $T$. 
 We now want to train the function $f$ that takes us from $x_t$ to $x_{t-1}$, just as in the simple diffusion model we looked at earlier. 
 
-Now, let's suppose that $f$ has been trained. Then we can start from $y_t \sim Pdata^{\prime}$ and use $f$ to step from $y_{t+1}$ to $y_t$ for all $t$ between $0$ and $T-1$. 
+Now, let's suppose that $f$ has been trained. Then we can start from $y_t \sim P_{\textnormal{data}}^{\prime}$ and use $f$ to step from $y_{t+1}$ to $y_t$ for all $t$ between $0$ and $T-1$. 
 We can now train $b$!
 
 So we want to train both $f$ and $b$ at the same time. Where have we seen something similar recently?
@@ -143,7 +145,7 @@ We still use diffusion to create images, but with a slight change in the model.
 
 <center><img src="images/CLIP.pdf" width="700"></center>
 
-Now, instead of sampling $x_0 \sim Pdata$, we sample $(x_0, text) \sim Pdata$. 
+Now, instead of sampling $x_0 \sim P_{\textnormal{data}}$, we sample $(x_0, text) \sim P_{\textnormal{data}}$. 
 The loss function becomes
 $$
 \begin{array}{l}

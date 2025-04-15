@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>CSCI 1051: Deep Learning</title>
+<title>Schrödinger Bridges and CLIP</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,23 +23,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./favicon.ico" rel="icon">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,8 +82,37 @@ ul.task-list li input[type="checkbox"] {
   gtag('config', 'G-GZHXTPTRRE');
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -93,7 +122,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Winter 2025</span>
     </a>
   </div>
@@ -112,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Gradescope</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./syllabus.html"> 
+    <a class="nav-link" href="../syllabus.html"> 
 <span class="menu-text">Syllabus</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -137,18 +166,28 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#simple-diffusion" id="toc-simple-diffusion" class="nav-link active" data-scroll-target="#simple-diffusion">Simple Diffusion</a></li>
+  <li><a href="#schrödinger-bridges" id="toc-schrödinger-bridges" class="nav-link" data-scroll-target="#schrödinger-bridges">Schrödinger Bridges</a></li>
+  <li><a href="#clip" id="toc-clip" class="nav-link" data-scroll-target="#clip">CLIP</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><strong>CSCI 1051: Deep Learning</strong></h1>
+<h1 class="title"><strong>Schrödinger Bridges and CLIP</strong></h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -160,318 +199,96 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p><em>Written by Shingo Kodama and Ines Kevine</em></p>
+<section id="simple-diffusion" class="level3">
+<h3 class="anchored" data-anchor-id="simple-diffusion">Simple Diffusion</h3>
+<p>Last time, we learned about a model that can generate new images: diffusion! Our motivation was to generate new data (for example, images) from <span class="math inline">\(P_{\textnormal{data}}\)</span>, the probability distribution that we sample <span class="math inline">\(x_0\)</span> from. We derived a closed form for generating <span class="math inline">\(x_t\)</span> using only <span class="math inline">\(x_0\)</span>: <span class="math display">\[
+x_t = \sqrt{\alpha^{t}} \cdot x_0 + \sqrt{1 - \alpha^{t}} \cdot z , \quad\quad \text{where } z \sim \mathcal{N}(0,I)
+\]</span> We used this formula to directly compute <span class="math inline">\(x_0\)</span> using <span class="math inline">\(x_T\)</span> and a predicted <span class="math inline">\(z\)</span> value, allowing us to generate new images in an efficient manner.</p>
+<p>However, we could also do diffusion in a “simpler” way!</p>
 <center>
-Deep learning from theoretical foundations to state-of-the-art applications.
+<img src="images/SimpleDiffusion.pdf" width="700">
 </center>
-<p><br></p>
-<div class="row">
-<div class="col" data-markdown="1">
-<p><strong>Instructor</strong>: <a href="https://www.rtealwitter.com/">R. Teal Witter</a>. Please call me Teal.</p>
-<p><strong>Class Times</strong>: We meet Monday, Tuesday, Wednesday, and Thursday in 75 Shannon St Room 202. The lecture is from 10am to noon and the discussion is from 2 to 4pm.</p>
-<p><strong>Office Hours</strong>: I will hold office hours in 75 Shannon St Room 221 from 3 to 4pm.</p>
-<p><strong>Participation</strong>: I expect you to engage in class, ask questions, and make connections. So I can check in with you, please fill out <a href="https://forms.gle/92hyvcHtCw4m62DWA">this</a> form every lecture.</p>
-<p><strong>Scribed Notes</strong>: Notes are a great resource for augmenting your in-class learning. Since I updated the material in this course, I would like to ask for your help in writing these notes. You can find the assignment <a href="notes/assignment.pdf">here</a>.</p>
-</div>
-<div class="col" data-markdown="1">
-<p><strong>Assignments</strong>: You will receive one problem per class. I expect you to solve the problem with your group during the discussion (I’ll be there to answer questions). Once you have solved the problem, you should write up your solution on your own. In addition, there will be a project on a lecture topic of your choice.</p>
-<table style="width: 100%; border-collapse: collapse;">
-<tbody><tr>
-<td>
-Assignment
-</td>
-<td>
-Due
-</td>
-</tr>
-<tr>
-<td>
-<a href="psets/pset1.pdf">Problem Set 1</a> (<a href="psets/pset1.tex">LaTeX</a>)
-</td>
-<td>
-Friday 1/10
-</td>
-</tr>
-<tr>
-<td>
-<a href="psets/pset2.pdf">Problem Set 2</a> (<a href="psets/pset2.tex">LaTeX</a>)
-</td>
-<td>
-Friday 1/17
-</td>
-</tr>
-<tr>
-<td>
-<a href="psets/pset3.pdf">Problem Set 3</a> (<a href="psets/pset3.tex">LaTeX</a>)
-</td>
-<td>
-Friday 1/24
-</td>
-</tr>
-<tr>
-<td>
-<a href="psets/pset4.pdf">Problem Set 4</a> (<a href="psets/pset4.tex">LaTeX</a>)
-</td>
-<td>
-Wednesday 1/29
-</td>
-</tr>
-<tr>
-<td>
-<a href="project/proposal.pdf">Project Proposal</a>
-</td>
-<td>
-Sunday 1/26
-</td>
-</tr>
-<tr>
-<td>
-<a href="project/project.pdf">Project</a>
-</td>
-<td>
-Friday 1/31
-</td>
-</tr>
-</tbody></table>
-</div>
-</div>
-<table style="width: 100%; border-collapse: collapse;">
-<tbody><tr>
-<td>
-Class
-</td>
-<td>
-Topic
-</td>
-<td>
-Slides
-</td>
-<td>
-Resources
-</td>
-</tr>
-<tr class="section-header">
-<td colspan="4">
-The Three-Step Framework
-</td>
-</tr>
-<tr>
-<td>
-Monday 1/6
-</td>
-<td>
-Linear Regression and Mean Squared Error
-</td>
-<td>
-<a href="slides/01_regression.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/01_Regression.html">My Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Tuesday 1/7
-</td>
-<td>
-Logistic Regression and Cross Entropy Loss
-</td>
-<td>
-<a href="slides/02_logistic.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/02_LogisticRegAndEntropy.html">Student Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Wednesday 1/8
-</td>
-<td>
-Gradient Descent and Neural Networks
-</td>
-<td>
-<a href="slides/03_networks.pdf">Slides</a>
-</td>
-<td>
-<a href="https://chinmayhegde.github.io/dl-notes/notes/lecture02/">Chinmay’s Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Thursday 1/9
-</td>
-<td>
-Back-propagation and Optimization
-</td>
-<td>
-<a href="slides/04_optimization.pdf">Slides</a>
-</td>
-<td>
-<a href="https://chinmayhegde.github.io/dl-notes/notes/lecture03/">Chinmay’s Notes</a>
-</td>
-</tr>
-<tr class="section-header">
-<td colspan="4">
-Language Generation
-</td>
-</tr>
-<tr>
-<td>
-Monday 1/13
-</td>
-<td>
-Language Embeddings and Contrastive Learning
-</td>
-<td>
-<a href="slides/05_language.pdf">Slides</a>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Tuesday 1/14
-</td>
-<td>
-Transformers and Positional Encoding
-</td>
-<td>
-<a href="slides/06_transformers.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/06_TransformersPositionalEncoding.html">Student Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Wednesday 1/15
-</td>
-<td>
-Low Rank Approximation
-</td>
-<td>
-<a href="slides/07_lora.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/07_LowRankApprox.html">Student Notes</a>
-</td>
-</tr>
-<tr>
-<td>
-Thursday 1/16
-</td>
-<td>
-Watermarking
-</td>
-<td>
-<a href="slides/08_watermarking.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/08_Watermarking.html">Student Notes</a>
-</td>
-</tr>
-<tr class="section-header">
-<td colspan="4">
-Image Generation
-</td>
-</tr>
-<tr>
-<td>
-Tuesday 1/21
-</td>
-<td>
-Convolutional Neural Networks and Image Embeddings
-</td>
-<td>
-<a href="slides/09_image_embeddings.pdf">Slides</a>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Wednesday 1/22
-</td>
-<td>
-Diffusion
-</td>
-<td>
-<a href="slides/10_diffusion.pdf">Slides</a>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Thursday 1/23
-</td>
-<td>
-Schrödinger Bridges and CLIP
-</td>
-<td>
-<a href="slides/11_schroedinger.pdf">Slides</a>
-</td>
-<td>
-<a href="notes/11_SchrodingerAndCLIP.html">Student Notes</a>
-</td>
-</tr>
-<tr class="section-header">
-<td colspan="4">
-AI Safety
-</td>
-</tr>
-<tr>
-<td>
-Monday 1/27
-</td>
-<td>
-Interpretability
-</td>
-<td>
-<a href="slides/12_interpretability.pdf">Slides</a>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Tuesday 1/28
-</td>
-<td>
-Project Preparation
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Wednesday 1/29
-</td>
-<td>
-Project Preparation
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-Thursday 1/30
-</td>
-<td>
-Project Presentations
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-</tbody></table>
+<p>(Note that the jagged lines on f denote that f is being trained.)</p>
+<p>Here, we compute each <span class="math inline">\(x_t\)</span> by adding a scaling of a normal distribution to <span class="math inline">\(x_{t-1}\)</span>. We don’t express <span class="math inline">\(x_t\)</span> in terms of <span class="math inline">\(x_0\)</span>, instead creating each new <span class="math inline">\(x_t\)</span> by using the previously created <span class="math inline">\(x_{t-1}\)</span>. This is certainly less efficient than our model from yesterday, but it’s simpler and easier to understand (and it will lead to Schrödinger Bridges, which we will talk about next)!</p>
+<p>So what would our training and evaluation steps look like in this scenario? For the training phase, we would do: <span class="math display">\[
+\begin{array}{l}
+x_0 \sim P_{\textnormal{data}} \\
+\text{for } t \text{ in } \{0,...,T-1\}:\\
+\quad\quad z \sim \mathcal{N}(0,I)\\
+\quad\quad x_{t+1} = x_t + \gamma z\\
+\quad\quad \mathcal{L}_f = \|\mathbf{f(x_{t+1}, t+1) - x_t}\|_2^2
+\end{array}
+\]</span></p>
+<p>And for the evaluation phase, we have: <span class="math display">\[
+\begin{array}{l}
+x_T \sim \mathcal{N}(0,I) \\
+\text{for } t \text{ in } \{T-1,...,0\}:\\
+\quad\quad x_t = f(x_{t+1}, t+1)
+\end{array}
+\]</span> The for loop in the evaluation phase is just one transition from <span class="math inline">\(x_T\)</span> to <span class="math inline">\(x_0\)</span>. Just like in the original diffusion we learned about yesterday, we can repeat this process <span class="math inline">\(T\)</span> times to create a more accurate image.</p>
+</section>
+<section id="schrödinger-bridges" class="level3">
+<h3 class="anchored" data-anchor-id="schrödinger-bridges">Schrödinger Bridges</h3>
+<p>Now let’s move on to a more complex model. Before (in the two diffusion models that we’ve seen so far), we wanted to transition between <span class="math inline">\(\mathcal{N}(0,I)\)</span> and <span class="math inline">\(P_{\textnormal{data}}\)</span>, so that we could generate new images starting from a normal distribution. Now, we want to move from one probability distribution <span class="math inline">\(P_{\textnormal{data}}\)</span> to another probability distribution <span class="math inline">\(P_{\textnormal{data}}^{\prime}\)</span>!</p>
+<p>Why would this be helpful? Let’s imagine a situation where we had an image of day-light cityscape. We can use a Schrödinger bridge diffusion model to transition this image into a night-time scene, because we can move from one probability distribution to another. Here are some examples of ways that this model would be helpful:</p>
+<span class="math display">\[\begin{array}{c@{\hspace{8pt}\leftrightarrow\hspace{8pt}}c@{\hspace{8pt}}c}
+    \mathbf{P_{\textnormal{data}}^{\prime}} &amp; \mathbf{P_{\textnormal{data}}} &amp; \text{Explanation}\\
+    \hline
+    \text{day} &amp; \text{night} &amp; \text{turning a day scene into a night scene}\\
+    \text{blurry} &amp; \text{clear} &amp; \text{turning a blurry image into a clear one}\\
+    \text{realistic} &amp; \text{comic} &amp; \text{turning a realistic image into a comic-style image}\\
+    \text{cat} &amp; \text{dog} &amp; \text{morphing a cat into a dog with similar features}\\
+\end{array}\]</span>
+<p>So now our motivation is: Given <span class="math inline">\(x_0 \sim P_{\textnormal{data}}\)</span>, find a “close” <span class="math inline">\(x_T \sim P_{\textnormal{data}}^{\prime}\)</span>!</p>
+<center>
+<img src="images/OptimalTransport.pdf" width="700">
+</center>
+<p>We want to move all the points (more exactly, the probability distribution) from <span class="math inline">\(P_{\textnormal{data}}\)</span> to <span class="math inline">\(P_{\textnormal{data}}^{\prime}\)</span> in an <span class="math inline">\(\textit{optimal}\)</span> way. What does it mean to be optimal? We want to transform one distribution to another with the least amount of total work. We call this “optimal transport”.</p>
+<p>The Schrödinger Bridge model attempts to find this optimal transport between <span class="math inline">\(P_{\textnormal{data}}\)</span> and <span class="math inline">\(P_{\textnormal{data}}^{\prime}\)</span>. How do we do this?</p>
+<center>
+<img src="images/Schrodinger.pdf" width="700">
+</center>
+<p>First, let’s take a look at the backward phase (going from <span class="math inline">\(x_0\)</span> to <span class="math inline">\(x_T\)</span>). Instead of just adding noise with a normal distribution, we now want to have a function <span class="math inline">\(b\)</span> that steps from <span class="math inline">\(x_{t-1}\)</span> to <span class="math inline">\(x_t\)</span> for each <span class="math inline">\(t\)</span> between <span class="math inline">\(1\)</span> and <span class="math inline">\(T\)</span>. We now want to train the function <span class="math inline">\(f\)</span> that takes us from <span class="math inline">\(x_t\)</span> to <span class="math inline">\(x_{t-1}\)</span>, just as in the simple diffusion model we looked at earlier.</p>
+<p>Now, let’s suppose that <span class="math inline">\(f\)</span> has been trained. Then we can start from <span class="math inline">\(y_t \sim P_{\textnormal{data}}^{\prime}\)</span> and use <span class="math inline">\(f\)</span> to step from <span class="math inline">\(y_{t+1}\)</span> to <span class="math inline">\(y_t\)</span> for all <span class="math inline">\(t\)</span> between <span class="math inline">\(0\)</span> and <span class="math inline">\(T-1\)</span>. We can now train <span class="math inline">\(b\)</span>!</p>
+<p>So we want to train both <span class="math inline">\(f\)</span> and <span class="math inline">\(b\)</span> at the same time. Where have we seen something similar recently? It’s just like GANs, where we trained the generator and the discriminator at the same time! Let’s see how we can represent the transitions and loss functions mathematically.</p>
+<span class="math display">\[\begin{array}{l}
+x_{t+1} = x_t + \gamma z + b(x_t, t), \quad\quad \text{where } z \sim \mathcal{N}(0,I) \\
+\mathcal{L}_f = \|\mathbf{f(x_{t+1}, t+1) - x_t}\|_2^2 \\\\
+
+y_{t-1} = y_t + \gamma z + f(y_t, t), \quad\quad \text{where } z \sim \mathcal{N}(0,I) \\
+\mathcal{L}_b = \|\mathbf{b(y_{t-1}, t-1) - y_t}\|_2^2
+\end{array}\]</span>
+<p>Can we train both <span class="math inline">\(f\)</span> and <span class="math inline">\(b\)</span> at the same time, when they are both randomly initialized? It’s certainly possible to do so, but there is an alternative solution that can make the generated image better! We can first pretrain <span class="math inline">\(f\)</span> and <span class="math inline">\(b\)</span> using regular diffusion, then use that to start the training phase. This makes the results much better.</p>
+</section>
+<section id="clip" class="level3">
+<h3 class="anchored" data-anchor-id="clip">CLIP</h3>
+<p>So now we know how to (1) embed words and images as vectors in latent spaces and (2) generate images using diffusion. Could we possibly combine these techniques to generate new images from text prompts?</p>
+<p>Yes, we can! First, how can we find data to train the model on? We can find many images online that have captions attached to them. We can assume that the captions are describing their images, so each (image, caption) pair is a positive pair! That means we can use contrastive learning to embed images and words in the same latent space.</p>
+<p>So how can we represent images and text as vectors of the same dimension? For images, we can use a network of convolutional layers to produce a vector in <span class="math inline">\(\mathbb{R}^d\)</span>. For text, we can use attention layers to produce a vector that represents the meaning of an entire sentence or even paragraph. We can then use a linear network to transform that vector into a vector in <span class="math inline">\(\mathbb{R}^d\)</span>.</p>
+<center>
+<img src="images/CLIP_embedding.pdf" width="700">
+</center>
+<p>Now we have vector representations of both images and captions in the same dimension! For any pair of (image, caption), we can calculate:</p>
+<p><span class="math display">\[
+| f(\text{image})^\top g(\text{caption}) |
+\]</span></p>
+<p>If the pair is a positive pair, we want this value to be large. If it is a negative pair, we want it to be small.</p>
+<p>We’ve now been able to represent images and words in the <span class="math inline">\(\textit{same}\)</span> space in a meaningful way. Captions and images that represent similar concepts are now close to each other in this latent space!</p>
+<p>Finally, let’s think about how we can create images from text prompts. We still use diffusion to create images, but with a slight change in the model.</p>
+<center>
+<img src="images/CLIP.pdf" width="700">
+</center>
+<p>Now, instead of sampling <span class="math inline">\(x_0 \sim P_{\textnormal{data}}\)</span>, we sample <span class="math inline">\((x_0, text) \sim P_{\textnormal{data}}\)</span>. The loss function becomes <span class="math display">\[
+\begin{array}{l}
+\mathcal{L}_f = \|\mathbf{f(x_t, t, text) - x_{t-1}}\|_2^2
+\end{array}
+\]</span> where we pass in the text as an argument of <span class="math inline">\(f\)</span>.</p>
+<p>After training the model in this way, we can create new images using whatever text prompt we want! We simply represent the text prompt as an embedded vector and use it to transition from <span class="math inline">\(X_T \sim \mathcal{N}(0,I)\)</span> to <span class="math inline">\(X_0\)</span>. We can now generate images from text prompts that we have no prior data about.</p>
 
 
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -141,7 +141,7 @@ Deep learning from theoretical foundations to state-of-the-art applications.
     <td>Thursday 1/23</td>
     <td>Schrödinger Bridges and CLIP</td>
     <td>[Slides](slides/11_schroedinger.pdf)</td>
-    <td></td>
+    <td>[Student Notes](notes/11_SchrodingerAndCLIP.html)</td>
   </tr>
   <tr class="section-header">
     <td colspan="4" >AI Safety</td>
