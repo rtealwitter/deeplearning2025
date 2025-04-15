@@ -194,14 +194,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="cell-3" class="cell" data-execution_count="2">
+<div id="cell-3" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="linear-regression-figures" class="level3">
 <h3 class="anchored" data-anchor-id="linear-regression-figures">Linear Regression Figures</h3>
-<div id="cell-5" class="cell" data-execution_count="3">
+<div id="cell-5" class="cell" data-outputid="df129192-41f1-475a-865c-51ecca676ff5">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1234</span>) <span class="co"># Seed randomness</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span> <span class="co"># Number of observations</span></span>
@@ -218,15 +218,76 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="vs">r'Linear Regression in $\mathbb</span><span class="sc">{R}</span><span class="vs">^1$'</span>)</span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'images/regression_1d.pdf'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-2-d86d24ec903a&gt;</span> in <span class="ansi-cyan-fg">&lt;cell line: 16&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg ansi-bold">     14</span> plt<span class="ansi-blue-fg">.</span>legend<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg ansi-bold">     15</span> plt<span class="ansi-blue-fg">.</span>title<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">r'Linear Regression in $\mathbb{R}^1$'</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">---&gt; 16</span><span class="ansi-red-fg"> </span>plt<span class="ansi-blue-fg">.</span>savefig<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">'images/regression_1d.pdf'</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.10/dist-packages/matplotlib/pyplot.py</span> in <span class="ansi-cyan-fg">savefig</span><span class="ansi-blue-fg">(*args, **kwargs)</span>
+<span class="ansi-green-fg ansi-bold">   1117</span>     <span class="ansi-red-fg"># savefig default implementation has no return, so mypy is unhappy</span>
+<span class="ansi-green-fg ansi-bold">   1118</span>     <span class="ansi-red-fg"># presumably this is here because subclasses can return?</span>
+<span class="ansi-green-fg">-&gt; 1119</span><span class="ansi-red-fg">     </span>res <span class="ansi-blue-fg">=</span> fig<span class="ansi-blue-fg">.</span>savefig<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>  <span class="ansi-red-fg"># type: ignore[func-returns-value]</span>
+<span class="ansi-green-fg ansi-bold">   1120</span>     fig<span class="ansi-blue-fg">.</span>canvas<span class="ansi-blue-fg">.</span>draw_idle<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>  <span class="ansi-red-fg"># Need this if 'transparent=True', to reset colors.</span>
+<span class="ansi-green-fg ansi-bold">   1121</span>     <span class="ansi-green-fg">return</span> res
+
+<span class="ansi-green-fg">/usr/local/lib/python3.10/dist-packages/matplotlib/figure.py</span> in <span class="ansi-cyan-fg">savefig</span><span class="ansi-blue-fg">(self, fname, transparent, **kwargs)</span>
+<span class="ansi-green-fg ansi-bold">   3388</span>                 <span class="ansi-green-fg">for</span> ax <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>axes<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg ansi-bold">   3389</span>                     _recursively_make_axes_transparent<span class="ansi-blue-fg">(</span>stack<span class="ansi-blue-fg">,</span> ax<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">-&gt; 3390</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>canvas<span class="ansi-blue-fg">.</span>print_figure<span class="ansi-blue-fg">(</span>fname<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg ansi-bold">   3391</span> 
+<span class="ansi-green-fg ansi-bold">   3392</span>     def ginput(self, n=1, timeout=30, show_clicks=True,
+
+<span class="ansi-green-fg">/usr/local/lib/python3.10/dist-packages/matplotlib/backend_bases.py</span> in <span class="ansi-cyan-fg">print_figure</span><span class="ansi-blue-fg">(self, filename, dpi, facecolor, edgecolor, orientation, format, bbox_inches, pad_inches, bbox_extra_artists, backend, **kwargs)</span>
+<span class="ansi-green-fg ansi-bold">   2185</span>                 <span class="ansi-red-fg"># force the figure dpi to 72), so we need to set it again here.</span>
+<span class="ansi-green-fg ansi-bold">   2186</span>                 <span class="ansi-green-fg">with</span> cbook<span class="ansi-blue-fg">.</span>_setattr_cm<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>figure<span class="ansi-blue-fg">,</span> dpi<span class="ansi-blue-fg">=</span>dpi<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 2187</span><span class="ansi-red-fg">                     result = print_method(
+</span><span class="ansi-green-fg ansi-bold">   2188</span>                         filename<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg ansi-bold">   2189</span>                         facecolor<span class="ansi-blue-fg">=</span>facecolor<span class="ansi-blue-fg">,</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.10/dist-packages/matplotlib/backend_bases.py</span> in <span class="ansi-cyan-fg">&lt;lambda&gt;</span><span class="ansi-blue-fg">(*args, **kwargs)</span>
+<span class="ansi-green-fg ansi-bold">   2041</span>                 "bbox_inches_restore"}
+<span class="ansi-green-fg ansi-bold">   2042</span>             skip <span class="ansi-blue-fg">=</span> optional_kws <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">*</span>inspect<span class="ansi-blue-fg">.</span>signature<span class="ansi-blue-fg">(</span>meth<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>parameters<span class="ansi-blue-fg">}</span>
+<span class="ansi-green-fg">-&gt; 2043</span><span class="ansi-red-fg">             print_method = functools.wraps(meth)(lambda *args, **kwargs: meth(
+</span><span class="ansi-green-fg ansi-bold">   2044</span>                 *args, **{k: v for k, v in kwargs.items() if k not in skip}))
+<span class="ansi-green-fg ansi-bold">   2045</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>  <span class="ansi-red-fg"># Let third-parties do as they see fit.</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.10/dist-packages/matplotlib/backends/backend_pdf.py</span> in <span class="ansi-cyan-fg">print_pdf</span><span class="ansi-blue-fg">(self, filename, bbox_inches_restore, metadata)</span>
+<span class="ansi-green-fg ansi-bold">   2798</span>             file <span class="ansi-blue-fg">=</span> filename<span class="ansi-blue-fg">.</span>_ensure_file<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg ansi-bold">   2799</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 2800</span><span class="ansi-red-fg">             </span>file <span class="ansi-blue-fg">=</span> PdfFile<span class="ansi-blue-fg">(</span>filename<span class="ansi-blue-fg">,</span> metadata<span class="ansi-blue-fg">=</span>metadata<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg ansi-bold">   2801</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg ansi-bold">   2802</span>             file<span class="ansi-blue-fg">.</span>newPage<span class="ansi-blue-fg">(</span>width<span class="ansi-blue-fg">,</span> height<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.10/dist-packages/matplotlib/backends/backend_pdf.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, filename, metadata)</span>
+<span class="ansi-green-fg ansi-bold">    686</span>         self<span class="ansi-blue-fg">.</span>original_file_like <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">None</span>
+<span class="ansi-green-fg ansi-bold">    687</span>         self<span class="ansi-blue-fg">.</span>tell_base <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">0</span>
+<span class="ansi-green-fg">--&gt; 688</span><span class="ansi-red-fg">         </span>fh<span class="ansi-blue-fg">,</span> opened <span class="ansi-blue-fg">=</span> cbook<span class="ansi-blue-fg">.</span>to_filehandle<span class="ansi-blue-fg">(</span>filename<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">"wb"</span><span class="ansi-blue-fg">,</span> return_opened<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg ansi-bold">    689</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> opened<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg ansi-bold">    690</span>             <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.10/dist-packages/matplotlib/cbook.py</span> in <span class="ansi-cyan-fg">to_filehandle</span><span class="ansi-blue-fg">(fname, flag, return_opened, encoding)</span>
+<span class="ansi-green-fg ansi-bold">    481</span>             fh <span class="ansi-blue-fg">=</span> bz2<span class="ansi-blue-fg">.</span>BZ2File<span class="ansi-blue-fg">(</span>fname<span class="ansi-blue-fg">,</span> flag<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg ansi-bold">    482</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 483</span><span class="ansi-red-fg">             </span>fh <span class="ansi-blue-fg">=</span> open<span class="ansi-blue-fg">(</span>fname<span class="ansi-blue-fg">,</span> flag<span class="ansi-blue-fg">,</span> encoding<span class="ansi-blue-fg">=</span>encoding<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg ansi-bold">    484</span>         opened <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">True</span>
+<span class="ansi-green-fg ansi-bold">    485</span>     <span class="ansi-green-fg">elif</span> hasattr<span class="ansi-blue-fg">(</span>fname<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">'seek'</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-red-fg">FileNotFoundError</span>: [Errno 2] No such file or directory: 'images/regression_1d.pdf'</pre>
+</div>
+</div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="code_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="code_files/figure-html/cell-4-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-6" class="cell" data-execution_count="7">
+<div id="cell-6" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="vs">r'$z$'</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="vs">r'$\mathcal</span><span class="sc">{L}</span><span class="vs">(z)$'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>xaxis <span class="op">=</span> np.arange(<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">.001</span>)</span>
@@ -235,15 +296,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="vs">r'Squared and Absolute Losses'</span>)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'images/regression_losses.pdf'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="code_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
-</figure>
 </div>
-</div>
-</div>
-<div id="cell-7" class="cell" data-execution_count="13">
+<div id="cell-7" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.lines <span class="im">import</span> Line2D</span>
@@ -291,18 +345,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the figure</span></span>
 <span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'images/regression_2d.pdf'</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
 <span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="code_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
 </div>
 </section>
 <section id="logistic-regression-figures" class="level3">
 <h3 class="anchored" data-anchor-id="logistic-regression-figures">Logistic Regression Figures</h3>
-<div id="cell-9" class="cell" data-execution_count="11">
+<div id="cell-9" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="vs">r'$z$'</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ylabel(r'$\sigma(z)$')</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>xaxis <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="fl">.001</span>)</span>
@@ -311,13 +358,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="vs">r'Sigmoid Function'</span>)</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'images/logistic_sigmoid.pdf'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="code_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
 </div>
 <div id="cell-10" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="vs">r'$z$'</span>)</span>
@@ -328,15 +368,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="vs">r'Sigmoid Function'</span>)</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'images/logistic_sigmoid.pdf'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="code_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
-</figure>
 </div>
-</div>
-</div>
-<div id="cell-11" class="cell" data-execution_count="6">
+<div id="cell-11" class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data points</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.linspace(<span class="fl">0.1</span>, <span class="dv">5</span>, <span class="dv">1000</span>)  <span class="co"># Avoid z=0 since ln(0) is undefined</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="op">-</span>np.log(z)</span>
@@ -370,10 +403,71 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'images/NegLog.pdf'</span>)</span>
 <span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Show plot</span></span>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-12" class="cell" data-outputid="80f5a561-7d0a-4234-e0a4-50a4a9fb5e3c" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create positional encoding of time example graph</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data points</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">1000</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>y1 <span class="op">=</span> np.sin(z<span class="op">*</span><span class="dv">4</span>)<span class="op">+</span><span class="dv">3</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>y2 <span class="op">=</span> np.sin(z<span class="op">*</span><span class="dv">8</span>)<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>y3 <span class="op">=</span> np.sin(z<span class="op">*</span><span class="dv">16</span>)<span class="op">-</span><span class="dv">1</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>y4 <span class="op">=</span> np.sin(z<span class="op">*</span><span class="dv">32</span>)<span class="op">-</span><span class="dv">3</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>y5 <span class="op">=</span> np.sin(z<span class="op">-</span><span class="dv">2</span>)<span class="op">*</span><span class="dv">10000</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>y6 <span class="op">=</span> np.sin(z<span class="op">-</span><span class="dv">3</span>)<span class="op">*</span><span class="dv">10000</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the figure and axis</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>plt.plot(z, y1, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'months'</span>, color<span class="op">=</span><span class="st">"#387490"</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>plt.plot(z, y2, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'days'</span>, color<span class="op">=</span><span class="st">"#89B374"</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>plt.plot(z, y3, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'hours'</span>, color<span class="op">=</span><span class="st">"#702E52"</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>plt.plot(z, y4, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'minutes'</span>, color<span class="op">=</span><span class="st">"#FEBE28"</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>plt.plot(z, y5, linewidth<span class="op">=</span><span class="dv">4</span>, label<span class="op">=</span><span class="st">"t"</span>, color<span class="op">=</span><span class="st">'#F2503B'</span>)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>plt.plot(z, y6, linewidth<span class="op">=</span><span class="dv">4</span>, label<span class="op">=</span><span class="st">"t+1"</span>, color<span class="op">=</span><span class="st">'#F2503B'</span>)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Add grid</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title and labels</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Positional Encoding Example'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="co">#annotate t values</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>plt.annotate(<span class="st">"t"</span>, (<span class="fl">2.1</span>, <span class="dv">2</span>), fontsize<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>plt.annotate(<span class="st">"t+1"</span>, (<span class="fl">3.1</span>, <span class="dv">2</span>), fontsize<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Add horizontal and vertical axes</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>plt.axhline(y<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'k'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>plt.axvline(x<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'k'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Set reasonable axis limits</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">4</span>)</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>)</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>plt.xticks(<span class="va">None</span>)</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout</span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">'off'</span>)</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'images/PositionalEncodingOfTime.pdf'</span>)</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Show plot</span></span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/content</code></pre>
+</div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="code_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="code_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>

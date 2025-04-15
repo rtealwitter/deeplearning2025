@@ -6,6 +6,8 @@ format:
     math: true
 ---
 
+*Written by Francis Cataldo and Thomas Normand*
+
 ## Motivation
 <p>
 Given the example sentence: the cow jumped over the moon. 
