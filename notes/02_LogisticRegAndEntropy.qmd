@@ -6,6 +6,8 @@ format:
     math: true
 ---
 
+*Written by Julian Grijalva*
+
 ## Motivation
 
 In many supervised learning settings, Linear regression is not appropriate because:
